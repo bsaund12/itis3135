@@ -1,99 +1,85 @@
-:root{
-  --bg: #0e0f11;
-  --panel: #16181c;
-  --text: #e9edf1;
-  --muted: #b8c0cc;
-  --brand: #6ea8fe;
-  --accent: #7ee787;
-  --link: #82cfff;
-  --link-visited: #caa3ff;
-}
-
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Helps center child blocks like header/main/footer on huge screens */
+  display: block;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
 }
 
+/* ---- Header: prevent overlap + center heading/nav ---- */
 header {
-  background: linear-gradient(90deg, var(--panel), #1d2030);
-  border-bottom: 1px solid #232736;
-  padding: 1rem 1.25rem;
+  /* Stack the title and nav vertically so they never overlap */
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* centers the contents horizontally */
+  gap: 0.5rem;                 /* space between h1 and nav */
+  padding: 1rem 1rem 0.5rem;
 }
-h1 {
-  margin: 0 0 .5rem 0;
-  font-size: 1.25rem;
-  letter-spacing: .2px;
+
+/* Main site title */
+header h1 {
+  margin: 0;                   /* remove default extra margins that can push into nav */
+  text-align: center;          /* center text regardless of screen size */
+  line-height: 1.2;            /* avoid tall lines touching the nav */
+  font-size: clamp(1.25rem, 2.5vw + 1rem, 2.25rem);
 }
-nav ul {
-  display: flex; flex-wrap: wrap; gap: .75rem;
-  list-style: none; margin: 0; padding: 0;
+
+/* Navigation */
+header nav ul,
+footer nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;               /* lay out horizontally and center */
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
-nav a {
+
+header nav a,
+footer nav a {
   text-decoration: none;
-  color: var(--text);
-  padding: .4rem .7rem;
-  border-radius: .6rem;
-  background: #1d2230;
-  border: 1px solid #2a2f44;
-}
-nav a:hover, nav a[aria-current="page"] {
-  border-color: var(--brand);
-  outline: none;
 }
 
-main {
-  max-width: 960px;
-  margin: 1.25rem auto;
-  padding: 0 1rem 2rem 1rem;
+/* ---- Center & constrain page content ---- */
+main,
+footer,
+header {
+  max-width: 980px;            /* keeps lines at a readable width */
+  margin-left: auto;
+  margin-right: auto;          /* centers each major region on the page */
+  width: min(92%, 980px);      /* prevents content hugging edges on mobile */
 }
-h2 { font-size: 1.4rem; margin: .25rem 0 1rem; }
-h3 { font-size: 1.1rem; margin: 1.25rem 0 .5rem; color: var(--accent); }
-p { color: var(--text); }
-section { background: var(--panel); border: 1px solid #232736; border-radius: 12px; padding: 1rem; margin: 1rem 0; }
 
-a { color: var(--link); }
-a:visited { color: var(--link-visited); }
+/* Page section headings inside main */
+main h2, main h3 {
+  text-align: center;          /* optional: gives a unified, clean look */
+  margin-top: 0.5rem;
+}
 
+/* Optional: center the profile figure on Introduction page */
 .profile {
-  display: inline-block;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid #2a2f44;
-  background: #141723;
-  margin: .5rem 0 1rem;
-}
-.profile img { display: block; width: 260px; height: auto; }
-.profile figcaption {
-  padding: .5rem .75rem;
-  font-size: .95rem;
-  color: var(--muted);
-  border-top: 1px solid #232736;
+  text-align: center;
+  margin: 1rem auto;
 }
 
-.signature { background: #12141c; border: 1px dashed #2a2f44; padding: .75rem 1rem; border-radius: 10px; }
+.profile img {
+  display: block;              /* allows margin auto to work */
+  max-width: 240px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;              /* centers the image */
+  border-radius: 8px;
+}
 
+/* Optional: give footer a little breathing room and alignment */
 footer {
-  border-top: 1px solid #232736;
-  background: #10121a;
-  padding: 1rem 1.25rem 2rem;
-}
-footer nav ul { gap: .5rem; }
-footer p { margin: .6rem 0 0; color: var(--muted); }
-footer a { text-decoration: none; }
-
-.validators img { vertical-align: middle; border: 0; }
-.validators a + a { margin-left: .5rem; }
-
-/* Media Queries (standard at end of stylesheet) */
-@media (min-width: 700px) {
-  h1 { font-size: 1.4rem; }
-  main { padding: 0 1.25rem 2.5rem; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  nav a { transition: border-color .2s ease; }
+  text-align: center;
+  padding: 1.5rem 1rem 2rem;
 }
