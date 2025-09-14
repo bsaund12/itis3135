@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BS Design — Creative Studio</title>
+
+  <!-- EMBEDDED STYLESHEET -->
+  <style>
+    /* Template layout styles */
+    :root{
+      --black:#000000;
+      --white:#FFFFFC;
+      --beige:#BEB7A4;
+      --orange:#FF7F11;
+      --red:#FF3F00;
+
+      --radius:14px;
+    }
+
+    /* Base */
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header{
+      background: var(--black);
+      color: var(--white);
+      padding: 1rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    header h1{margin:0;font-size:1.25rem;letter-spacing:.5px}
+    header h1 span{color:var(--orange)}
+    nav{display:flex;gap:.75rem;flex-wrap:wrap}
+    nav a{
+      color:var(--white);
+      text-decoration:none;
+      padding:.4rem .6rem;
+      border-radius:10px;
+      font-weight:600;
+    }
+    nav a:hover{background:#141414}
+    nav .cta{background:var(--orange);color:var(--white)}
+    nav .cta:hover{background:var(--red)}
+
+    /* Hero */
+    .hero{
+      padding: 3rem 1rem;
+      text-align:center;
+      background:
+        linear-gradient(135deg, rgba(255,127,17,.15), rgba(255,63,0,.10)),
+        var(--white);
+    }
+    .hero h2{margin:0 0 .5rem 0;font-size: clamp(1.8rem, 4vw, 2.6rem)}
+    .hero p{max-width:60ch;margin:.25rem auto 1rem}
+    .actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+
+    /* Buttons */
+    .btn{
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      padding: .7rem 1.1rem;
+      text-decoration: none;
+      display:inline-block;
+      font-weight:800;
+    }
+    .btn:hover{background:var(--red)}
+    .btn.ghost{
+      background: transparent;
+      color: var(--black);
+      border:2px solid var(--black);
+    }
+    .btn.ghost:hover{background:var(--black);color:var(--white)}
+
+    /* Sections */
+    .section{padding:2.5rem 1rem}
+    .section h3{margin:.25rem 0 1rem;font-size:1.5rem;text-align:center}
+
+    /* color-balance across the page */
+    .light{background: var(--white)}
+    .beige{background: var(--beige)}
+    .dark{background: var(--black); color: var(--white)}
+    .accent{
+      background: linear-gradient(135deg, var(--orange), var(--red));
+      color: var(--white);
+    }
+
+    /* Services cards (simple flex) */
+    .cards{
+      display:flex; gap:1rem; flex-wrap:wrap;
+      max-width: 1000px; margin: 0 auto;
+    }
+    .card{
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,.1);
+      border-radius: var(--radius);
+      padding: 1rem;
+      flex: 1 1 250px;
+    }
+    .card h4{margin:.2rem 0 .4rem 0}
+    .card p{margin:0}
+
+    /* Work shots (simple blocks) */
+    .shots{
+      display:flex; gap:1rem; flex-wrap:wrap;
+      max-width: 1000px; margin: 0 auto;
+    }
+    .shot{
+      flex:1 1 280px; height:150px; border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(255,127,17,.25), rgba(255,63,0,.25)),
+        #0f0f0f;
+      border:1px solid #1a1a1a;
+    }
+    .dark .note{text-align:center; opacity:.9; margin-top:1rem}
+
+    /* About */
+    .beige p{max-width: 70ch; margin: 0 auto}
+
+    /* Contact */
+    .contact{
+      max-width: 680px; margin: 0 auto;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .contact label{display:block; font-weight:700; margin:.6rem 0 .3rem}
+    .contact input, .contact textarea{
+      width:100%; padding:.6rem .7rem; border-radius:10px; border:1px solid rgba(0,0,0,.2);
+      font: inherit;
+    }
+    .contact button{margin-top:.6rem}
+
+    /* Footer */
+    footer{
+      background: var(--black);
+      color: var(--white);
+      text-align:center;
+      padding: 1rem;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 640px){
+      nav{justify-content:center}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BS <span>Design</span></h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a class="cta" href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="home">
+    <!-- HERO -->
+    <section class="hero">
+      <h2>Design for what’s next.</h2>
+      <p>Modern, accessible websites and brand systems with clean code and bold visuals.</p>
+      <div class="actions">
+        <a class="btn" href="#contact">Start a project</a>
+        <a class="btn ghost" href="#work">See work</a>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="section light">
+      <h3>Services</h3>
+      <div class="cards">
+        <article class="card">
+          <h4>Brand Basics</h4>
+          <p>Logo, color, and type that scale across platforms.</p>
+        </article>
+        <article class="card">
+          <h4>Web Design</h4>
+          <p>Responsive layouts with clear structure and strong contrast.</p>
+        </article>
+        <article class="card">
+          <h4>UI / UX</h4>
+          <p>Simple flows and reusable components that feel fast.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work" class="section dark">
+      <h3>Selected Work</h3>
+      <div class="shots">
+        <div class="shot" aria-label="Project screenshot"></div>
+        <div class="shot" aria-label="Project screenshot"></div>
+        <div class="shot" aria-label="Project screenshot"></div>
+      </div>
+      <p class="note">More case studies available on request.</p>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section beige">
+      <h3>About</h3>
+      <p>
+        Small studio, big standards. I build with readability, accessibilty, and
+        performance in mind. Every choice supports a goal: clarity first.
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section accent">
+      <h3>Let’s build something bold</h3>
+      <form action="#" method="post" class="contact">
+        <label>Name
+          <input type="text" name="name" required>
+        </label>
+        <label>Email
+          <input type="email" name="email" required>
+        </label>
+        <label>Project brief
+          <textarea name="message" rows="4" required></textarea>
+        </label>
+        <button class="btn" type="submit">Request proposal</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year">2025</span> BS Design</p>
+  </footer>
+</body>
+</html>
