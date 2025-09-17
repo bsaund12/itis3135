@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bashful Shark — About</title>
+  <meta name="description" content="About Bashful Shark — a chill surf micro-shop for beginners and ocean lovers." />
+  <link rel="icon" href="images/favicon.ico" />
+  <style>
+
+    body {
+        /* Add subtle blue overlay to background */
+        background: linear-gradient(180deg, var(--sand) 0%, #FFD59E 25%, var(--ocean) 60%, var(--peach) 100%);
+    }
+    header {
+        /* Add blue accent to header */
+        border-bottom: 4px solid var(--ocean);
+    }
+    .logo {
+        /* Add blue shadow to logo */
+        box-shadow: 0 0 0 4px var(--ocean), 0 10px 20px var(--shade);
+    }
+    .nav a {
+        /* Blue hover effect for nav links */
+        transition: background 0.2s;
+        padding: 4px 10px;
+        border-radius: 8px;
+    }
+    .nav a:hover {
+        background: var(--ocean);
+        color: #fff;
+    }
+    .card {
+        /* Blue border for cards */
+        border: 2px solid var(--ocean);
+    }
+    .card h3 {
+        color: var(--ocean);
+    }
+    .cta {
+        /* Stronger blue gradient for CTA */
+        background: linear-gradient(90deg, var(--ocean), #039be5 80%);
+    }
+    footer {
+        /* Blue accent in footer */
+        border-top: 4px solid var(--ocean);
+    }
+
+    :root{
+      --sand:#FFE8A3;
+      --coral:#FF7043;
+      --peach:#FFAB91;
+      --ocean:#0277BD;
+      --drift:#4E342E;
+      --shell:#fff8e6;
+      --shade:rgba(0,0,0,.08);
+      --radius:18px;
+      --gap:18px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--sand) 0%, #FFD59E 35%, var(--peach) 100%);
+      color:var(--drift);font:16px/1.6 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif}
+    a{color:var(--ocean);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1024px;margin-inline:auto;padding:clamp(14px,2vw,22px)}
+
+    header{background:linear-gradient(180deg, #fffaf0 0%, #fff3df 100%);
+      border-bottom:2px solid #f5d3a5}
+    .brand{display:flex;align-items:center;gap:16px}
+    .logo{width:54px;height:54px;border-radius:14px;
+      background:radial-gradient(circle at 35% 35%, var(--coral), transparent 55%),
+      radial-gradient(circle at 70% 65%, var(--peach), transparent 55%), #fff8f0;
+      border:2px solid #f3c89c;display:grid;place-items:center;
+      font-weight:800;color:#5b3b2f}
+    .logo span{font-size:13px;letter-spacing:.6px}
+    h1{margin:0;font-size:clamp(24px,4vw,32px)}
+    .tagline{margin:.25rem 0 0 0;font-style:italic;color:#7a5b4d}
+
+    nav{margin-left:auto}
+    .nav{display:flex;gap:14px;flex-wrap:wrap}
+
+    main{padding:28px 0}
+    h2{margin:0 0 .5rem;font-size:clamp(20px,4vw,28px)}
+    .prose{max-width:72ch}
+    .grid{display:grid;gap:var(--gap);grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .card{background:var(--shell);border:1px solid #f1d7b5;border-radius:var(--radius);
+      padding:18px;box-shadow:0 10px 20px var(--shade)}
+    .card h3{margin:.25rem 0;font-size:18px}
+    .small{font-size:13px;color:#7a5b4d}
+
+    footer{margin-top:20px;background:linear-gradient(180deg,#fff3df 0%, #ffe8c7 100%);
+      border-top:2px solid #f5d3a5;color:#6b4d3f}
+    .footer-grid{display:grid;gap:12px;grid-template-columns:1fr auto;align-items:center}
+    @media (max-width:560px){.footer-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap brand">
+      <div class="logo" aria-hidden="true"><span>BS</span></div>
+      <div>
+        <h1>Bashful Shark</h1>
+        <p class="tagline">Little shop, big waves.</p>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <a href="../index.html">Course Home</a>
+        <a href="./index.html">Home</a>
+        <a href="./about.html" aria-current="page">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <h2>Bashful Shark — About</h2>
+      <div class="prose">
+        <p><strong>Why “Bashful”?</strong> Not everyone wants the loud, high-pressure surf shop vibe. Bashful Shark is for first-timers and ocean lovers who want to learn at their own pace, grab simple gear, and catch a sunset session without the fuss.</p>
+        <p><strong>What we do:</strong> We keep a tiny, easy-to-choose inventory so decisions feel simple. Our four staples are <em>Mini-Boards & Foamies</em>, <em>Shark Tooth Necklaces</em>, <em>Shark Bite Wax</em>, and <em>Wave Starter Lessons</em>. That’s it — small shop, big smiles.</p>
+      </div>
+
+      <section class="prose" aria-label="Our vibe">
+        <h3>Our vibe</h3>
+        <p>Think golden hour on the beach — warm, relaxed, and welcoming. We keep things small on purpose so you can get to the water faster, whether you’re renting a foamie or grabbing a necklace as a keepsake.</p>
+      </section>
+
+      <section class="prose" aria-label="Submission notes">
+        <h3 class="small">Submission notes (for Canvas)</h3>
+        <ul class="small">
+          <li>I have filled out the Sites List page.</li>
+          <li>I have completed my about.html page, the link is https://webpages.charlotte.edu/bsaund12/bashful-shark/about.html</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <p class="small"><em>Little shop, big waves.</em></p>
+      <p class="small">© <span id="year"></span> Bashful Shark • Site by <a href="../index.html">BS Design</a></p>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+</body>
+</html>
