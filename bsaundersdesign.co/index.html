@@ -155,6 +155,7 @@
       nav{justify-content:center}
     }
   </style>
+    <script src="https://lint.page/kit/4d0fe3.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
@@ -238,6 +239,20 @@
 
   <footer>
     <p>© <span id="year">2025</span> BS Design</p>
+    <p class="validators">
+      <a href="https://validator.w3.org/check?uri=referer" id="validation_link_html">
+        <img src="images/button_validation_html5.png" width="88" height="31" alt="Validate webpage HTML." />
+      </a>
+      <a href="https://jigsaw.w3.org/css-validator/check/referer" id="validation_link_css">
+        <img src="images/button_validation_css.png" width="88" height="31" alt="Validate webpage CSS." />
+      </a>
+    </p>
+    <script>
+      // Ensure validators work from GitHub Pages too:
+      const u = location.href;
+      document.getElementById("validation_link_html").setAttribute("href","https://validator.w3.org/check?uri="+encodeURIComponent(u));
+      document.getElementById("validation_link_css").setAttribute("href","https://jigsaw.w3.org/css-validator/validator?uri="+encodeURIComponent(u));
+    </script>
   </footer>
 </body>
 </html>
