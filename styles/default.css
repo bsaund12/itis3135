@@ -89,3 +89,46 @@ footer a { text-decoration: none; }
 @media (prefers-reduced-motion: no-preference) {
   nav a { transition: border-color .2s ease; }
 }
+
+body{
+  text-align:center;
+  font-family: Arial, sans-serif;
+}
+table {
+    margin: 0 auto;               /* centers the table */
+    border-collapse: collapse;    /* removes double borders */
+    width: 80%;                   /* keeps table narrower than page */
+    background: #232736;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+caption {
+    caption-side: top;
+    font-weight: bold;
+    padding: 1rem;
+    font-size: 1.1rem;
+    background: #232736;
+    color: #fff;
+    border: 1px solid #ffffff;
+}
+
+thead {
+    background: #232736;
+    color: #ffffff;
+}
+
+th, td {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ffffff;
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background: #232736;
+}
+
+tbody tr:hover {
+    background: #3c3a3a; /* highlight row on hover */
+}
