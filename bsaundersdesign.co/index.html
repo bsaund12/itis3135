@@ -51,17 +51,29 @@
     nav .cta{background:var(--orange);color:var(--white)}
     nav .cta:hover{background:var(--red)}
 
+    /* Page title */
+    .page-title{
+      margin: 0;
+      padding: 1.25rem 1rem 0;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      text-align: center;
+    }
+
     /* Hero */
     .hero{
-      padding: 3rem 1rem;
+      padding: 2rem 1rem 3rem;
       text-align:center;
       background:
         linear-gradient(135deg, rgba(255,127,17,.15), rgba(255,63,0,.10)),
         var(--white);
     }
-    .hero h2{margin:0 0 .5rem 0;font-size: clamp(1.8rem, 4vw, 2.6rem)}
+    .hero .tagline{margin:.5rem 0 1rem 0;font-size: clamp(1.2rem, 3vw, 1.6rem)}
     .hero p{max-width:60ch;margin:.25rem auto 1rem}
     .actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+
+    /* Simple inline logo */
+    .logo-wrap{display:flex; justify-content:center; margin: .75rem 0 1rem}
+    .logo{width:min(280px, 60vw); height:auto}
 
     /* Buttons */
     .btn{
@@ -124,8 +136,9 @@
     }
     .dark .note{text-align:center; opacity:.9; margin-top:1rem}
 
-    /* About */
-    .beige p{max-width: 70ch; margin: 0 auto}
+    /* About / company list */
+    .beige p, .beige ul{max-width: 70ch; margin: 0 auto}
+    .beige ul{margin-top:.75rem}
 
     /* Contact */
     .contact{
@@ -135,6 +148,14 @@
       border-radius: var(--radius);
       padding: 1rem;
     }
+    .contact-info{
+      max-width: 680px; margin: 0 auto 1rem;
+      background: rgba(0,0,0,.08);
+      border: 1px solid rgba(0,0,0,.15);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .contact-info p{margin:.2rem 0}
     .contact label{display:block; font-weight:700; margin:.6rem 0 .3rem}
     .contact input, .contact textarea{
       width:100%; padding:.6rem .7rem; border-radius:10px; border:1px solid rgba(0,0,0,.2);
@@ -155,7 +176,7 @@
       nav{justify-content:center}
     }
   </style>
-    <script src="https://lint.page/kit/4d0fe3.js" crossorigin="anonymous"></script>
+  <script src="https://lint.page/kit/4d0fe3.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
@@ -170,9 +191,15 @@
   </header>
 
   <main id="home">
+    <!-- PAGE NAME (H2) -->
+    <h2 class="page-title">BS Design — Creative Studio</h2>
+
     <!-- HERO -->
-    <section class="hero">
-      <h2>Design for what’s next.</h2>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="logo-wrap" aria-hidden="true">
+        <img src="/images/designfirm.png" alt="BS Design logo" class="logo">
+      </div>
+      <h3 id="hero-heading" class="tagline">Design for what’s next.</h3>
       <p>Modern, accessible websites and brand systems with clean code and bold visuals.</p>
       <div class="actions">
         <a class="btn" href="#contact">Start a project</a>
@@ -210,19 +237,40 @@
       <p class="note">More case studies available on request.</p>
     </section>
 
-    <!-- ABOUT -->
+    <!-- ABOUT / COMPANY LIST -->
     <section id="about" class="section beige">
       <h3>About</h3>
       <p>
-        Small studio, big standards. I build with readability, accessibilty, and
+        Small studio, big standards. I build with readability, accessibility, and
         performance in mind. Every choice supports a goal: clarity first.
       </p>
+      <ul>
+        <li>Mobile-first, responsive builds</li>
+        <li>Accessible, semantic HTML</li>
+        <li>Fast load times and Core Web Vitals focus</li>
+        <li>Reusable UI systems and components</li>
+        <li>Clean CSS architecture and naming</li>
+        <li>Design systems with consistent color/type</li>
+        <li>SEO foundations baked in</li>
+        <li>Clear communication and timelines</li>
+      </ul>
     </section>
 
     <!-- CONTACT -->
     <section id="contact" class="section accent">
       <h3>Let’s build something bold</h3>
-      <form action="#" method="post" class="contact">
+
+      <!-- Required contact block -->
+      <div class="contact-info" aria-labelledby="contact-info-heading">
+        <h4 id="contact-info-heading" style="margin:0 0 .4rem 0;">Contact</h4>
+        <p>Email: bsaund12@charlotte.edu</p>
+        <p>Phone: (704) 123-4567</p>
+        <p>Address: 9021 University City Blvd, Charlotte, NC</p>
+      </div>
+
+      <!-- Optional inquiry form -->
+      <form action="#" method="post" class="contact" aria-labelledby="contact-form-heading">
+        <h4 id="contact-form-heading" style="margin:0 0 .4rem 0;">Project Inquiry</h4>
         <label>Name
           <input type="text" name="name" required>
         </label>
@@ -239,20 +287,6 @@
 
   <footer>
     <p>© <span id="year">2025</span> BS Design</p>
-    <p class="validators">
-      <a href="https://validator.w3.org/check?uri=referer" id="validation_link_html">
-        <img src="images/button_validation_html5.png" width="88" height="31" alt="Validate webpage HTML." />
-      </a>
-      <a href="https://jigsaw.w3.org/css-validator/check/referer" id="validation_link_css">
-        <img src="images/button_validation_css.png" width="88" height="31" alt="Validate webpage CSS." />
-      </a>
-    </p>
-    <script>
-      // Ensure validators work from GitHub Pages too:
-      const u = location.href;
-      document.getElementById("validation_link_html").setAttribute("href","https://validator.w3.org/check?uri="+encodeURIComponent(u));
-      document.getElementById("validation_link_css").setAttribute("href","https://jigsaw.w3.org/css-validator/validator?uri="+encodeURIComponent(u));
-    </script>
   </footer>
 </body>
 </html>
