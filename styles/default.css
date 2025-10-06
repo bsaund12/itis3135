@@ -57,13 +57,13 @@ a { color: var(--link); }
 a:visited { color: var(--link-visited); }
 .profile {
   display: inline-block;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid #2a2f44;
   background: #141723;
   margin: .5rem 0 1rem;
 }
-.profile img { display: block; width: 260px; height: auto; }
+.profile img { display: block; width: 300px; height: auto; }
 .profile figcaption {
   padding: .5rem .75rem;
   font-size: .95rem;
