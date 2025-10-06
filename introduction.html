@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -8,42 +8,119 @@
 </head>
 <body>
   <header>
-  <div data-include="components/header.html"></div>
+    <div data-include="components/header.html"></div>
   </header>
 
   <main>
     <h2>Introduction</h2>
-
+    <style>
+      /* Ensure lists inside <main> are left-aligned and use outside bullets */
+      main ul,
+      main ol {
+        text-align: left !important;
+        list-style-position: outside !important;
+        margin-left: 1.5rem !important;
+      }
+    </style>
     <figure class="profile">
-      <img src="images/meonthebeach.jpg" alt="Photo of B.J. Saunders at the beach smiling at the camera" />
-      <figcaption>B.J. Saunders</figcaption>
+      <img
+        src="images/meonthebeach.jpg"
+        alt="B.J. Saunders smiling at Hilton Head Beach, August 2025"
+      />
+      <figcaption>Me at Hilton Head Beach, August 2025</figcaption>
     </figure>
 
-    <section>
-      <h3>Background</h3>
-      <p>I’m B.J. Saunders, a Junior at UNC Charlotte studying Computer Science/Cybersecurity. I enjoy problem solving, rock climbing, music, and working out.</p>
+    <section aria-labelledby="about-heading">
+      <h3 id="about-heading">About Me</h3>
+      <p>
+        Hi, my name is <strong>Brian B.J. Saunders</strong>. I’m <strong>20 years old</strong> from
+        <strong>Roxboro, NC</strong>. I’m majoring in <strong>Computer Science</strong> with a
+        concentration in <strong>Cybersecurity</strong>. After graduation, I plan to work as a
+        <strong>Cybersecurity Analyst</strong>. My dog’s name is <strong>Charlie</strong>.
+      </p>
     </section>
 
-    <section>
-      <h3>Current Courses</h3>
+    <section aria-labelledby="personal-background">
+      <h3 id="personal-background">Personal Background</h3>
+      <p>Hobbies I enjoy:</p>
       <ul>
-        <li>ITIS 3135 – Web Design/Development</li>
-        <li>ITSC 3146 - Intro to Oper Syst</li>
-        <li>ITSC 3155 - Software Engineering</li>
-        <li>ITSC 3688 - Comp and their Impact on Society</li>
-        <li>STAT 2122 - Intro to Prob and Stat</li>
+        <li>Going to the gym</li>
+        <li>Video games</li>
+        <li>Running</li>
       </ul>
     </section>
 
-    <section>
-      <h3>Memorable Item</h3>
-      <p>My cross pendant chain that I wear. It was given to me by my grandmother and I have it on 24/7.</p>
+    <section aria-labelledby="professional-background">
+      <h3 id="professional-background">Professional Background</h3>
+      <p>
+        I began coding in <strong>12<sup>th</sup> grade</strong> with <strong>Python</strong>. Since
+        starting college, I’ve learned multiple languages, attended several career fairs, and
+        started personal projects.
+      </p>
+    </section>
+
+    <section aria-labelledby="academic-background">
+      <h3 id="academic-background">Academic Background</h3>
+      <p>
+        I’m currently a <strong>Junior</strong> majoring in Computer Science (Cybersecurity) and am
+        on track to graduate in <strong>May 2027</strong>.
+      </p>
+    </section>
+
+    <section aria-labelledby="primary-computer">
+      <h3 id="primary-computer">Primary Computer</h3>
+      <ul>
+        <li>HP Laptop</li>
+        <li>Windows</li>
+        <li>Used at the library and my apartment</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="current-courses">
+      <h3 id="current-courses">Courses I’m Taking and Why</h3>
+      <ul>
+        <li>
+          <strong>ITIS-3155 (Software Engineering):</strong>
+          Wanted to see what software engineering was about.
+        </li>
+        <li>
+          <strong>ITSC-3146 (Intro Oper Syst &amp; Networking):</strong>
+          Wanted to see how operating systems work within a computer.
+        </li>
+        <li>
+          <strong>ITSC-3135 (Front-End Web Development):</strong>
+          Wanted to see how front-end development worked.
+        </li>
+        <li>
+          <strong>ITSC-3688 (Comp and their Impact on Society):</strong>
+          Interested in the way computers impact society.
+        </li>
+        <li>
+          <strong>STAT-2122 (Intro to Prob and Stat):</strong>
+          Requirement for my program.
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="memorable-item">
+      <h3 id="memorable-item">Memorable Item</h3>
+      <p>
+        My cross pendant chain given to me by my grandmother. I wear it every day.
+      </p>
+    </section>
+
+    <section aria-labelledby="favorite-quote">
+      <h3 id="favorite-quote">Favorite Quote</h3>
+      <blockquote>
+        “The only way to do a great job is to love what you do.”
+        <footer>— <cite>Steve Jobs</cite></footer>
+      </blockquote>
     </section>
   </main>
 
   <footer>
     <div data-include="components/footer.html"></div>
-    <script src ="scripts/HTMLInclude.min.js"></script>
+    <script src="scripts/HTMLInclude.min.js"></script>
   </footer>
 </body>
 </html>
