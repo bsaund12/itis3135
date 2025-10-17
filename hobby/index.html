@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Strength Training & Gym — Hobby</title>
+
+  <!-- Embedded stylesheet (required) -->
+  <style>
+    :root{
+      /* Dark, cool gym palette */
+      --ink:#0b0d12;          /* near-black */
+      --graphite:#151a24;     /* dark panel */
+      --steel:#1f2633;        /* card bg */
+      --line:#2b3344;
+      --neon:#00f0ff;         /* electric cyan */
+      --lime:#8fff00;         /* neon lime for accents */
+      --mag:#ff2d95;          /* magenta pop */
+      --muted:#a8b0bf;
+
+      --radius:16px;
+      --shadow:0 18px 40px rgba(0,0,0,.45);
+      --space:clamp(12px, 1.2vw + 8px, 22px);
+    }
+
+    /* Base */
+    *{box-sizing:border-box}
+    html:focus-within{scroll-behavior:smooth}
+    @media (prefers-reduced-motion: reduce){
+      html:focus-within{scroll-behavior:auto}
+      *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
+    }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color:#e6edf7;
+      background:
+        radial-gradient(1000px 300px at 10% -10%, rgba(0,240,255,.08), transparent),
+        radial-gradient(800px 220px at 90% -15%, rgba(143,255,0,.08), transparent),
+        linear-gradient(180deg, #0a0c11, #0e121a 35%, #0b0f17 100%);
+      min-height:100vh;
+    }
+    a{color:var(--neon); text-underline-offset:.25em}
+    a:hover,a:focus{color:var(--lime)}
+
+    /* Layout */
+    header{
+      position:sticky; top:0; z-index:10;
+      background: rgba(10,12,17,.7);
+      backdrop-filter: blur(10px) saturate(120%);
+      border-bottom:1px solid var(--line);
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding: clamp(14px, 1.2vw + 10px, 22px);}
+    .brand{display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; justify-content:space-between}
+    h1{
+      margin:0; letter-spacing:.6px;
+      font-size: clamp(1.4rem, 1.2rem + 2vw, 2.4rem);
+      color:#fff;
+      text-shadow: 0 0 18px rgba(0,240,255,.22);
+    }
+
+    /* Skip link */
+    .skip-link{position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden}
+    .skip-link:focus{
+      position:fixed; left:1rem; top:1rem; width:auto; height:auto; padding:.6rem .9rem;
+      background:#fff; color:#000; outline:3px solid var(--mag); border-radius:10px; z-index:9999;
+    }
+
+    /* Tabs / nav */
+    nav[aria-label="Section"]{
+      width:100%; margin-top:.6rem;
+      background: linear-gradient(180deg, rgba(31,38,51,.8), rgba(21,26,36,.8));
+      border:1px solid var(--line); border-radius:999px; box-shadow: var(--shadow);
+    }
+    .tabs{
+      display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+      gap:.3rem; padding:.35rem; list-style:none; margin:0;
+    }
+    .tabs li{display:flex; align-items:center; gap:.3rem}
+    .divider{opacity:.55; user-select:none; color:#98a6bd}
+    .tab{
+      appearance:none; border:0; background:transparent; cursor:pointer;
+      padding:.55rem .9rem; border-radius:999px; font-weight:700; letter-spacing:.25px;
+      color:#c9d4ea;
+    }
+    .tab[aria-selected="true"]{
+      background:
+        linear-gradient(180deg, rgba(0,240,255,.25), rgba(0,240,255,.08)),
+        linear-gradient(180deg, var(--steel), var(--graphite));
+      color:#fff; box-shadow: inset 0 -2px 0 rgba(143,255,0,.35), 0 6px 20px rgba(0,240,255,.25);
+      border:1px solid rgba(0,240,255,.35);
+      text-shadow: 0 0 10px rgba(0,240,255,.4);
+    }
+    .tab:focus-visible{outline:3px solid var(--mag); outline-offset:2px}
+
+    /* Sections */
+    main{padding:min(6vw,48px) 0}
+    section[role="tabpanel"]{display:none; animation:fade .25s ease-out both}
+    section.active{display:block}
+    @keyframes fade{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+
+    .section-inner{
+      background: linear-gradient(180deg, rgba(31,38,51,.75), rgba(21,26,36,.75));
+      border:1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: clamp(16px, 2vw + 8px, 28px);
+    }
+    h2{
+      margin-top:0; color:#eaf6ff;
+      font-size: clamp(1.25rem, 1rem + 1.6vw, 1.8rem);
+      text-shadow: 0 0 12px rgba(143,255,0,.25);
+    }
+
+    /* Content patterns */
+    .grid{display:grid; gap:var(--space); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items:start}
+    .card{
+      padding:1rem; border:1px solid var(--line); border-radius:12px; background:var(--steel);
+      box-shadow: 0 6px 20px rgba(0,0,0,.35);
+    }
+    .muted{color:var(--muted)}
+
+    figure{
+      margin:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#10151f;
+      box-shadow: 0 10px 26px rgba(0,0,0,.45);
+    }
+    figure img{display:block; width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; filter:contrast(1.05) saturate(1.05)}
+    figcaption{padding:.6rem .8rem; font-weight:700; color:#dff8ff}
+    .ai-prompt{font-style:italic; color:#86a9ff; margin:.45rem .6rem .85rem}
+
+    table{width:100%; border-collapse:collapse; background:#0e1320; border:1px solid var(--line); border-radius:12px; overflow:hidden}
+    thead th{background: linear-gradient(180deg, rgba(0,240,255,.16), rgba(0,240,255,.05)); color:#d8faff; text-align:left; padding:.7rem .6rem; font-size:.95rem}
+    tbody td{padding:.6rem; border-top:1px solid #20283a}
+
+    form label{display:block; font-weight:700; margin-top:.5rem}
+    input[type="text"], input[type="email"], select, textarea{
+      width:100%; padding:.55rem .7rem; border:1px solid #2a3346; border-radius:10px; background:#0f1522; color:#e6edf7;
+    }
+    textarea{min-height:96px}
+    .btn{
+      display:inline-block; margin-top:.8rem; padding:.65rem 1.05rem; border-radius:999px; font-weight:800; letter-spacing:.25px;
+      background: linear-gradient(180deg, var(--neon), #00a6ff); color:#001018; border:0; cursor:pointer;
+      box-shadow: 0 10px 28px rgba(0,240,255,.35), inset 0 -2px 0 rgba(255,255,255,.25);
+    }
+    .btn:focus-visible{outline:3px solid var(--lime); outline-offset:2px}
+
+    .note{
+      font-size:.95rem; background:linear-gradient(180deg, rgba(143,255,0,.12), rgba(143,255,0,.05));
+      border:1px dashed rgba(143,255,0,.45); padding:.6rem .8rem; border-radius:10px; color:#eaffd1
+    }
+
+    /* Footer */
+    footer{margin-top:60px; border-top:1px solid var(--line); background:#0c1019}
+    .footer-grid{display:grid; gap:.6rem; align-items:center; grid-template-columns:1fr; text-align:center}
+    .validators{display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; align-items:center}
+    .vbtn{
+      display:inline-block; padding:.5rem .85rem; border-radius:999px; font-weight:800; font-size:.9rem;
+      background:linear-gradient(180deg, #0f1a29, #0b1422); border:1px solid #25405f; color:#bfe9ff; text-decoration:none;
+      box-shadow: 0 6px 18px rgba(0,0,0,.4);
+    }
+    .vbtn:hover,.vbtn:focus{border-color:#3d79b2; color:#e0f4ff}
+
+    .visually-hidden{position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <h1>Strength Training & Gym</h1>
+        <nav aria-label="Section" role="tablist">
+          <ul class="tabs">
+            <li><button class="tab" role="tab" aria-selected="true" aria-controls="what" data-target="what">What</button></li>
+            <li class="divider" aria-hidden="true">⛓</li>
+            <li><button class="tab" role="tab" aria-selected="false" aria-controls="who" data-target="who">Who</button></li>
+            <li class="divider" aria-hidden="true">⛓</li>
+            <li><button class="tab" role="tab" aria-selected="false" aria-controls="when" data-target="when">When</button></li>
+            <li class="divider" aria-hidden="true">⛓</li>
+            <li><button class="tab" role="tab" aria-selected="false" aria-controls="where" data-target="where">Where</button></li>
+            <li class="divider" aria-hidden="true">⛓</li>
+            <li><button class="tab" role="tab" aria-selected="false" aria-controls="how" data-target="how">How</button></li>
+            <li class="divider" aria-hidden="true">⛓</li>
+            <li><button class="tab" role="tab" aria-selected="false" aria-controls="why" data-target="why">Why</button></li>
+            <li class="divider" aria-hidden="true">⛓</li>
+            <li><button class="tab" role="tab" aria-selected="false" aria-controls="ai" data-target="ai">AI&nbsp;Prompts</button></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" tabindex="-1">
+    <!-- WHAT -->
+    <section id="what" class="active" role="tabpanel" aria-labelledby="tab-what">
+      <div class="section-inner">
+        <h2>What is my gym routine?</h2>
+        <div class="grid">
+          <div class="card">
+            <p>Strength training builds muscle, power, and confidence. My split as  of now is Push, Pull, Legs, Upper, Lower. With this split I am able to efficiently hit every muscle group 2x a week.</p>
+            <p class="muted">Every set that I do, I do 2x times till failure with 1-2 warmup sets before.</p>
+          </div>
+
+          <figure>
+            <img src="images/gympic.webp" alt="Moody gym equipment under LED lights" />
+            <figcaption>Iron, focus. Lock In.</figcaption>
+            <p class="Description"><em>This is a place where you can go to better yourself and become the man/woman you want to be. No judgement, only you and the weight.</em></p>
+          </figure>
+
+          <div class="card">
+            <h3 class="visually-hidden">Core principles</h3>
+            <table aria-label="Core principles">
+              <thead><tr><th>Principle</th><th>What it means</th></tr></thead>
+              <tbody>
+                <tr><td>Progressive overload</td><td>Add more weight each set, try to increase 2.5 lbs every week</td></tr>
+                <tr><td>Form first</td><td>Full ROM, stable bracing, controlled tempo</td></tr>
+                <tr><td>Recovery</td><td>Sleep, protein, deloads keep gains moving</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHO -->
+    <section id="who" role="tabpanel" aria-labelledby="tab-who">
+      <div class="section-inner">
+        <h2>Who am I?</h2>
+        <div class="grid">
+          <div class="card">
+            <p>I am just a guy who wasn't happy with how he looked. People who go to the gym are either going through something, wanting to look better, or both. It's a wonderful place I found in highschool that just lets you escape reality and better yourself at the same time.</p>
+            <p class="muted">I’m about steady progress, not ego lifts. Strong today, stronger next month.</p>
+          </div>
+
+          <figure>
+            <img src="images/mirror.JPG" alt="Two lifters in hoodies fist-bumping near a power rack with chalk in the air" />
+            <figcaption>Become the best you.</figcaption>
+            <p class="Motivation"><em>Working out has given me a hobby, helped me make tons of new friends, and become overall happier with myself.</em></p>
+          </figure>
+
+          <div class="card">
+            <form aria-labelledby="who-form-title">
+              <h3 id="who-form-title">Join a session</h3>
+              <label for="name">Name</label>
+              <input id="name" type="text" name="name" autocomplete="name" />
+              <label for="email">Email</label>
+              <input id="email" type="email" name="email" autocomplete="email" />
+              <label for="level">Experience</label>
+              <select id="level" name="level">
+                <option>New lifter</option>
+                <option>Novice 3–6 months</option>
+                <option>Intermediate 6–18 months</option>
+                <option>Advanced 18+ months</option>
+              </select>
+              <button class="btn" type="submit">Request invite</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHEN -->
+    <section id="when" role="tabpanel" aria-labelledby="tab-when">
+      <div class="section-inner">
+        <h2>When I train</h2>
+        <div class="grid">
+          <div class="card">
+            <p>On Mondays, Wednesdays, and Fridays I go from 10AM-12PM, on Tuesdays and Thursdays I go from 5PM-7PM. This is what works best with my class schedule</p>
+            <ul>
+              <li>Push: Incline, shoulders, triceps</li>
+              <li>Pull: Lats, rows, pullovers, biceps</li>
+              <li>Legs: Quads, hamstrings, calves</li>
+              <li>Upper: Mix of push and pull</li>
+              <li>Lower: Squat and deadlift focus</li>
+            </ul>
+          </div>
+
+          <figure>
+            <img src="images/incline.JPG" alt="Weekly dark planner with neon cyan highlights on three training days" />
+            <figcaption>Slow and controlled reps matter</figcaption>
+            <p class="ai-prompt"><em>This is my favorite exercise to do, it's the incline chest press. It gives the best pump and is overall the most enjoyable.</em></p>
+          </figure>
+
+          <div class="card">
+            <h3 class="visually-hidden">Sample weekly split</h3>
+            <table aria-label="Sample weekly split">
+              <thead><tr><th>Day</th><th>Focus</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td>Mon</td><td>Push</td><td>Bench top set + backoff, shoulder press, dips</td></tr>
+                <tr><td>Tue</td><td>Pull</td><td>Heavy rows, vertical pull, rear delts</td></tr>
+                <tr><td>Wed</td><td>Legs</td><td>Squat top set + volume, RDLs, calves</td></tr>
+                <tr><td>Thu</td><td>Upper</td><td>Mix push/pull accessories, core</td></tr>
+                <tr><td>Fri</td><td>Lower</td><td>Deadlift top set + backoff, lunges, abs</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHERE -->
+    <section id="where" role="tabpanel" aria-labelledby="tab-where">
+      <div class="section-inner">
+        <h2>Where I like to lift</h2>
+        <div class="grid">
+          <div class="card">
+            <p>I typically workout at the UREC. I don't have a reason to pay for a membership anywhere else when I have one on campus. It's overall pretty good too.</p>
+            <p class="note">Wipe equipment, re-rack plates, give spotters a heads-up. Respect the space.</p>
+          </div>
+
+          <figure>
+            <img src="images/UREC.jpg" alt="Powerlifting gym with multiple racks and bumper plates, cyan neon strip lights" />
+            <figcaption>UNC Charlotte UREC</figcaption>
+            <p class="Description"><em>I've been going to the UREC for three years now and It has been an overall wonderful experience. I've made new friends and broken barriers I never thought I would have.</em></p>
+          </figure>
+
+          <div class="card">
+            <h3 class="visually-hidden">Gym checklist</h3>
+            <ul>
+              <li>Many squat racks and benches</li>
+              <li>Plenty of plates and dumbbells up to 100+</li>
+              <li>Chalk-friendly or towels allowed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW -->
+    <section id="how" role="tabpanel" aria-labelledby="tab-how">
+      <div class="section-inner">
+        <h2>How I train</h2>
+        <div class="grid">
+          <div class="card">
+            <ol>
+              <li>Warm up: 5–8 min cardio, mobility, specific ramp sets</li>
+              <li>Top set: heavy but clean, then backoff volume</li>
+              <li>Accessories: target weak links and posture</li>
+              <li>Log: sets, reps, RPE, notes for next time</li>
+            </ol>
+          </div>
+
+          <figure>
+            <img src="images/cardio.jpg" alt="Close shot of hands setting up for bench press with wrist wraps and bar knurling visible" />
+            <figcaption>Details make the lift.</figcaption>
+            <p class="Description"><em>I make sure to either stretch or do cardio for 8-10 minutes before I lift. It helps prevent injuries and makes the session better in my opinion.</em></p>
+          </figure>
+
+          <div class="card">
+            <form aria-labelledby="gear-form-title">
+              <h3 id="gear-form-title">Starter gear</h3>
+              <label><input type="checkbox" /> Flat shoes or lifters</label>
+              <label><input type="checkbox" /> Belt (as needed)</label>
+              <label><input type="checkbox" /> Wraps/straps</label>
+              <label><input type="checkbox" /> Chalk</label>
+              <button class="btn" type="submit">Save checklist</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section id="why" role="tabpanel" aria-labelledby="tab-why">
+      <div class="section-inner">
+        <h2>Why I love the gym</h2>
+        <div class="grid">
+          <div class="card">
+            <p>Training flips stress into momentum. Plates move, mind clears, confidence goes up. It’s therapy with a barbell.</p>
+            <p class="muted">Code, class, life, lifting keeps it all steady.</p>
+          </div>
+
+          <figure>
+            <img src="images/mind.webp" alt="Athlete locking out a deadlift in a halo of chalk dust with neon cyan edge light" />
+            <figcaption>Strong body. Stronger mind.</figcaption>
+            <p class="Description"><em>Building mental resilience through physical challenges.</em></p>
+          </figure>
+
+          <div class="card">
+            <h3 class="visually-hidden">Benefits</h3>
+            <ul>
+              <li>Strength and athletic posture</li>
+              <li>Higher focus and mood</li>
+              <li>Community and accountability</li>
+              <li>Improved physical health</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI PROMPTS -->
+    <section id="ai" role="tabpanel" aria-labelledby="tab-ai">
+      <div class="section-inner">
+        <h2>AI Prompts & workflow</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Model(s) used</h3>
+            <p>Images: photorealistic generator, consistent style, dark gym lighting.</p>
+            <p>Code/text: ChatGPT (model: GPT-5 Thinking) for layout, accessibility, and SPA logic.</p>
+          </div>
+
+          <div class="card">
+        
+
+          <div class="card">
+            <h3>Prompts (site)</h3>
+            <ul>
+              <li>“Single-file SPA with embedded CSS, header/main/footer, tabs that hide/show sections, dark neon gym theme.”</li>
+              <li>“Each section has at least three items and one figure with caption plus italic AI prompt.”</li>
+              <li>“Add keyboard-accessible tabs, skip link, and prefers-reduced-motion.”</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <p>Designed by <a href="https://webpages.charlotte.edu/bsaund12/itis3135/bsaundersdesign.co/" target="_blank" rel="noopener">BS Design Studio</a></p>
+        <div class="validators" aria-label="Validation tools">
+          <a class="vbtn" id="htmlCheck" href="#" rel="nofollow">HTML&nbsp;Validator</a>
+          <a class="vbtn" id="cssCheck" href="#" rel="nofollow">CSS&nbsp;Validator</a>
+          <a class="vbtn" id="waveCheck" href="#" rel="nofollow">Accessibility&nbsp;(WAVE)</a>
+        </div>
+        <p class="muted" style="margin:.4rem 0 .2rem 0;">© <span id="year"></span> Strength Training & Gym</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Minimal, accessible JS -->
+  <script>
+    (function(){
+      const tabs = document.querySelectorAll('.tab');
+      const sections = document.querySelectorAll('section[role="tabpanel"]');
+
+      function show(id){
+        sections.forEach(s=>{
+          const active = s.id === id;
+          s.classList.toggle('active', active);
+          s.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+        tabs.forEach(t=>{
+          const on = t.dataset.target === id;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.setAttribute('tabindex', on ? '0' : '-1');
+        });
+        const active = document.getElementById(id);
+        if(active) active.focus({preventScroll:true});
+      }
+
+      tabs.forEach(t=>{
+        t.addEventListener('click', e=>{ e.preventDefault(); show(t.dataset.target); });
+        t.addEventListener('keydown', e=>{
+          const order = Array.from(tabs);
+          const i = order.indexOf(t);
+          if(e.key === 'ArrowRight'){ order[(i+1)%order.length].focus(); }
+          if(e.key === 'ArrowLeft'){ order[(i-1+order.length)%order.length].focus(); }
+        });
+      });
+
+      // default to "what"
+      show('what');
+
+      // year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // validator links
+      const url = encodeURIComponent(location.href);
+      document.getElementById('htmlCheck').href = `https://validator.w3.org/nu/?doc=${url}`;
+      document.getElementById('cssCheck').href  = `https://jigsaw.w3.org/css-validator/validator?uri=${url}&profile=css3svg&usermedium=all&warning=0`;
+      document.getElementById('waveCheck').href = `https://wave.webaim.org/report#/${location.href}`;
+    })();
+  </script>
+
+  <!-- Deployment note:
+    - Place at: /public_html/itis3135/hobby/index.html
+    - Create /itis3135/hobby/images/ and add:
+        what-gym.jpg, who-partners.jpg, when-planner.jpg,
+        where-gym.jpg, how-bench.jpg, why-deadlift.jpg
+    - Add “Hobby” to your main site’s secondary nav -> /itis3135/hobby/
+  -->
+</body>
+</html>
