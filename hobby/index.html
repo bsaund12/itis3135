@@ -4,7 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Strength Training & Gym — Hobby</title>
+  <style>
+    /* Ensure no bullet points or numbers are centered */
+    ul, ol, li { text-align: left; }
 
+    /* Make list markers visible and consistent */
+    ul, ol {
+      list-style-position: outside;
+      margin-left: clamp(1rem, 3vw, 1.5rem);
+      padding-left: 0;
+    }
+
+    /* Guard against centered lists inside specific centered containers */
+    footer ul, footer ol, .footer-grid ul, .section-inner ul, .section-inner ol {
+      text-align: left;
+    }
+  </style>
   <!-- Embedded stylesheet (required) -->
   <style>
     :root{
