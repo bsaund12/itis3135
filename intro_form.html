@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Introduction Form | ITIS 3135</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Use YOUR existing site stylesheet so the result matches your intro page -->
+  <link rel="stylesheet" href="styles/default.css" />
+
+  <!-- Page logic for validation, add/remove courses, render result -->
+  <script defer src="scripts/introduction.js"></script>
+
+
+</head>
+<body>
+  <!-- Your existing header include -->
+  <header>
+    <div data-include="components/header.html"></div>
+  </header>
+
+  <main class="container">
+    <!-- The ONLY intentional difference from your intro page’s H2 -->
+    <h2>Introduction Form</h2>
+    <h3>Please submit the form below.</h3>
+
+    <details class="template-note">
+      <summary>Optional: paste your exact intro markup into the template for pixel-perfect match</summary>
+      <p class="muted">If your original Introduction page has custom wrappers, paste that HTML into
+        the template below and add simple IDs (e.g., <code>out-name</code>, <code>out-picture</code>).
+        The JS will populate those spots so the rendered result is visually identical.</p>
+    </details>
+
+    <!-- RESULT TEMPLATE (used after Submit) -->
+    <template id="intro-template">
+      <section id="intro-output" aria-live="polite">
+        <h2 id="out-title">Introduction</h2>
+
+        <figure>
+          <img id="out-picture" alt="Introduction headshot" style="max-width: 260px; height: auto;" />
+          <figcaption id="out-picture-caption"></figcaption>
+        </figure>
+
+        <p id="out-ack" class="muted"></p>
+
+        <h3 id="out-name"></h3>
+        <p><strong>Mascot:</strong> <span id="out-mascot"></span></p>
+
+        <p><strong>Personal Statement:</strong></p>
+        <p id="out-personal"></p>
+
+        <ul id="out-main-bullets"></ul>
+
+        <h3>Current Courses</h3>
+        <ul id="out-courses"></ul>
+
+        <blockquote id="out-quote-block">
+          <p id="out-quote"></p>
+          <cite id="out-quote-author"></cite>
+        </blockquote>
+
+        <p><em id="out-funny"></em></p>
+        <p id="out-share"></p>
+
+        <h3>Links</h3>
+        <ul id="out-links"></ul>
+      </section>
+    </template>
+
+    <!-- FORM -->
+    <form id="intro-form" novalidate>
+      <fieldset>
+        <legend>Your Name</legend>
+        <div class="row">
+          <div>
+            <label for="firstName">First Name *</label>
+            <input id="firstName" name="firstName" type="text" required placeholder="e.g., Brian" />
+          </div>
+          <div>
+            <label for="middleName">Middle Name / Initial (optional)</label>
+            <input id="middleName" name="middleName" type="text" placeholder="e.g., Laval or L" />
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="nickName">Nickname / Preferred (optional)</label>
+            <input id="nickName" name="nickName" type="text" placeholder="e.g., BJ" />
+          </div>
+          <div>
+            <label for="lastName">Last Name *</label>
+            <input id="lastName" name="lastName" type="text" required placeholder="e.g., Saunders" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Acknowledgment</legend>
+        <label for="ackStatement">Acknowledgment Statement *</label>
+        <input id="ackStatement" name="ackStatement" type="text" required
+               placeholder='e.g., "I acknowledge this work is my own."' />
+
+        <label for="ackDate">Acknowledgment Date *</label>
+        <input id="ackDate" name="ackDate" type="date" required />
+      </fieldset>
+
+      <fieldset>
+        <legend>Mascot</legend>
+        <div class="row">
+          <div>
+            <label for="mascotAdj">Mascot Adjective *</label>
+            <input id="mascotAdj" name="mascotAdj" type="text" required placeholder="e.g., Bashful" />
+          </div>
+          <div>
+            <label for="mascotAnimal">Mascot Animal *</label>
+            <input id="mascotAnimal" name="mascotAnimal" type="text" required placeholder="e.g., Shark" />
+          </div>
+        </div>
+
+        <label for="divider">Divider (~, |, ♥, etc.) *</label>
+        <input id="divider" name="divider" type="text" required placeholder="e.g., |, ~" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Picture</legend>
+        <div class="row">
+          <div>
+            <label for="pictureUrl">Default Image URL *</label>
+            <input id="pictureUrl" name="pictureUrl" type="url" required
+                   placeholder="https://example.com/your-headshot.jpg" />
+            <p class="muted">Use the SAME image URL your original Introduction page uses.</p>
+          </div>
+          <div>
+            <label for="pictureFile">Upload a New Image (optional)</label>
+            <input id="pictureFile" name="pictureFile" type="file" accept="image/*" />
+          </div>
+        </div>
+
+        <label for="pictureCaption">Picture Caption *</label>
+        <input id="pictureCaption" name="pictureCaption" type="text" required placeholder="A short caption" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Content</legend>
+        <label for="personalStatement">Personal Statement *</label>
+        <textarea id="personalStatement" name="personalStatement" required
+                  placeholder="Write a short personal statement matching your intro page."></textarea>
+
+        <div class="row">
+          <div>
+            <label for="quote">Favorite Quote *</label>
+            <input id="quote" name="quote" type="text" required placeholder='e.g., "Stay hungry, stay foolish."' />
+          </div>
+          <div>
+            <label for="quoteAuthor">Quote Author *</label>
+            <input id="quoteAuthor" name="quoteAuthor" type="text" required placeholder="e.g., Steve Jobs" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="funny">Funny Thing (optional)</label>
+            <input id="funny" name="funny" type="text" placeholder="Something fun or quirky" />
+          </div>
+          <div>
+            <label for="share">Something I’d Like to Share (optional)</label>
+            <input id="share" name="share" type="text" placeholder="Anything else?" />
+          </div>
+        </div>
+
+        <fieldset>
+          <legend>7 Main Bullets</legend>
+          <div class="row">
+            <div>
+              <label for="bullet1">Personal Background *</label>
+              <textarea id="bullet1" required placeholder="Your personal background."></textarea>
+            </div>
+            <div>
+              <label for="bullet2">Academic Background *</label>
+              <textarea id="bullet2" required placeholder="Your academic background."></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="bullet3">Professional Background *</label>
+              <textarea id="bullet3" required placeholder="Your professional background."></textarea>
+            </div>
+            <div>
+              <label for="bullet4">Courses & Interest Areas *</label>
+              <textarea id="bullet4" required placeholder="Relevant interest areas."></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="bullet5">Hobbies/Interests *</label>
+              <textarea id="bullet5" required placeholder="Hobbies."></textarea>
+            </div>
+            <div>
+              <label for="bullet6">Goals *</label>
+              <textarea id="bullet6" required placeholder="Short- and long-term goals."></textarea>
+            </div>
+          </div>
+          <div>
+            <label for="bullet7">Unique or Additional Note *</label>
+            <textarea id="bullet7" required placeholder="Something unique to you."></textarea>
+          </div>
+        </fieldset>
+      </fieldset>
+
+      <fieldset>
+        <legend>Courses</legend>
+        <div class="courses-list" id="coursesList"></div>
+        <div class="actions">
+          <button type="button" id="addCourseBtn">+ Add Course</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Links (5)</legend>
+        <div class="row-3">
+          <div>
+            <label for="link1Text">Link 1 Text *</label>
+            <input id="link1Text" type="text" required placeholder="LinkedIn" />
+          </div>
+          <div>
+            <label for="link1Url">Link 1 URL *</label>
+            <input id="link1Url" type="url" required placeholder="https://linkedin.com/in/you" />
+          </div>
+          <div></div>
+        </div>
+        <div class="row-3">
+          <div>
+            <label for="link2Text">Link 2 Text *</label>
+            <input id="link2Text" type="text" required placeholder="GitHub" />
+          </div>
+          <div>
+            <label for="link2Url">Link 2 URL *</label>
+            <input id="link2Url" type="url" required placeholder="https://github.com/you" />
+          </div>
+          <div></div>
+        </div>
+        <div class="row-3">
+          <div>
+            <label for="link3Text">Link 3 Text *</label>
+            <input id="link3Text" type="text" required placeholder="Portfolio" />
+          </div>
+          <div>
+            <label for="link3Url">Link 3 URL *</label>
+            <input id="link3Url" type="url" required placeholder="https://yourdomain.com" />
+          </div>
+          <div></div>
+        </div>
+        <div class="row-3">
+          <div>
+            <label for="link4Text">Link 4 Text *</label>
+            <input id="link4Text" type="text" required placeholder="Resume" />
+          </div>
+          <div>
+            <label for="link4Url">Link 4 URL *</label>
+            <input id="link4Url" type="url" required placeholder="https://yourdomain.com/resume.pdf" />
+          </div>
+          <div></div>
+        </div>
+        <div class="row-3">
+          <div>
+            <label for="link5Text">Link 5 Text *</label>
+            <input id="link5Text" type="text" required placeholder="UNCC Webspace" />
+          </div>
+          <div>
+            <label for="link5Url">Link 5 URL *</label>
+            <input id="link5Url" type="url" required placeholder="https://webpages.charlotte.edu/UNCCID/" />
+          </div>
+          <div></div>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" id="submitBtn">Submit</button>
+        <button type="reset" id="resetBtn">Reset</button>
+        <button type="button" id="clearBtn">Clear</button>
+      </div>
+    </form>
+
+    <!-- Where we render the result after Submit -->
+    <section id="resultSection" class="hidden"></section>
+
+    <!-- Reset link after render -->
+    <p id="resultReset" class="result-reset hidden">
+      <a href="#" id="doReset">Reset and fill again</a>
+    </p>
+  </main>
+
+  <!-- Your existing footer include (loads HTMLInclude.min.js for includes) -->
+  <footer>
+    <div data-include="components/footer.html"></div>
+    <script src="scripts/HTMLInclude.min.js"></script>
+  </footer>
+</body>
+</html>
