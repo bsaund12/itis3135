@@ -40,7 +40,29 @@ const DEFAULTS = {
     { dept: "STAT", number: "2122", name: "Statistics", reason: "Data intuition." }
   ]
 };
+// Ensure any previously rendered introduction pages are removed when the user resets
+function clearPreviousIntroductions() {
+    // Clear the dedicated result container if present
+    const resultSection = document.querySelector("#resultSection");
+    if (resultSection) resultSection.innerHTML = "";
 
+    // Remove any leftover elements produced by the template (IDs prefixed with "out-")
+    document.querySelectorAll("[id^='out-']").forEach(n => n.remove());
+
+    // If any blob/object URLs were created and attached to elements, revoke them and remove those elements.
+    // We look for elements that might have a data-object-url or data-generated-object-url attribute.
+    document.querySelectorAll("[data-object-url], [data-generated-object-url]").forEach(el => {
+        const url = el.dataset.objectUrl || el.dataset.generatedObjectUrl;
+        if (url) try { URL.revokeObjectURL(url); } catch (e) {}
+        el.remove();
+    });
+}
+
+// Hook reset actions so previous outputs are cleared (works alongside existing handlers)
+document.addEventListener("click", (e) => {
+    const id = e.target && e.target.id;
+    if (id === "doReset" || id === "resetBtn") clearPreviousIntroductions();
+});
 // ====== UTIL ======
 const $ = sel => document.querySelector(sel);
 const el = (tag, props = {}, ...children) => {
