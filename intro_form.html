@@ -5,69 +5,110 @@
   <title>Introduction Form | ITIS 3135</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Use YOUR existing site stylesheet so the result matches your intro page -->
+  <!-- Use the SAME stylesheet as your main introduction page -->
   <link rel="stylesheet" href="styles/default.css" />
 
-  <!-- Page logic for validation, add/remove courses, render result -->
+  <!-- Page-scoped fixes so nothing is centered and no horizontal overflow -->
+  <style>
+    /* Scope to this page only */
+    .intro-form-page { overflow-x: hidden; }
+
+    /* Match your intro page list alignment */
+    .intro-form-page main ul,
+    .intro-form-page main ol {
+      text-align: left !important;
+      list-style-position: outside !important;
+      margin-left: 1.5rem !important;
+    }
+
+    /* Keep form and rendered output left-aligned */
+    .intro-form-page #intro-form,
+    .intro-form-page #intro-form *,
+    .intro-form-page #resultSection,
+    .intro-form-page #resultSection * {
+      text-align: left !important;
+    }
+
+    /* Inputs and long URLs shouldn’t widen the page */
+    .intro-form-page input[type="url"],
+    .intro-form-page a,
+    .intro-form-page #out-courses,
+    .intro-form-page #out-personal-list {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    /* Simple utility used by the JS to hide/show */
+    .hidden { display: none !important; }
+
+    /* Minimal form layout helpers (kept tiny so default.css controls the look) */
+    fieldset { margin-bottom: 1rem; }
+    .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .row-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .courses-list { display: grid; gap: .75rem; }
+    .course-card { border: 1px dashed #bbb; border-radius: .5rem; padding: .75rem; display: grid; gap: .5rem; }
+    .course-card .row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+    .course-card .topline { display: flex; justify-content: space-between; align-items: center; }
+    .danger { color: #a00; }
+
+    @media (max-width: 700px) {
+      .row, .row-3, .course-card .row { grid-template-columns: 1fr; }
+    }
+
+    .intro-form-page #resultSection #out-title {
+    text-align: center !important;
+  }
+  .intro-form-page #resultSection .profile {
+    text-align: center !important;   /* centers the caption */
+    margin-inline: auto;             /* centers the figure block if it has width */
+  }
+  .intro-form-page #resultSection .profile img#out-picture {
+    display: block;
+    margin: center;             /* centers the image itself */
+    max-width: 100%;
+    height: auto;
+  }
+
+  .intro-form-page #resultSection #out-title {
+    text-align: center !important;
+  }
+
+  /* Make the figure a centering container regardless of layout */
+  .intro-form-page #resultSection .profile {
+    display: flex !important;              /* beats grid/inline defaults */
+    flex-direction: column !important;
+    align-items: center !important;        /* centers image + caption */
+    justify-content: center;
+    margin-inline: auto !important;
+    text-align: center !important;         /* caption alignment */
+    float: none !important;                /* in case theme floats the figure */
+    clear: both !important;
+  }
+
+  /* Force the image itself to center and ignore floats */
+  .intro-form-page #resultSection .profile img#out-picture {
+    display: block !important;
+    margin: 0 auto !important;
+    float: none !important;
+    max-width: 100%;
+    height: auto;
+  }
+  </style>
+
+  <!-- Page logic -->
   <script defer src="scripts/introduction.js"></script>
-
-
 </head>
-<body>
-  <!-- Your existing header include -->
+<body class="intro-form-page">
   <header>
     <div data-include="components/header.html"></div>
   </header>
 
-  <main class="container">
+  <main>
     <!-- The ONLY intentional difference from your intro page’s H2 -->
     <h2>Introduction Form</h2>
-    <h3>Please submit the form below.</h3>
 
-    <details class="template-note">
-      <summary>Optional: paste your exact intro markup into the template for pixel-perfect match</summary>
-      <p class="muted">If your original Introduction page has custom wrappers, paste that HTML into
-        the template below and add simple IDs (e.g., <code>out-name</code>, <code>out-picture</code>).
-        The JS will populate those spots so the rendered result is visually identical.</p>
-    </details>
-
-    <!-- RESULT TEMPLATE (used after Submit) -->
-    <template id="intro-template">
-      <section id="intro-output" aria-live="polite">
-        <h2 id="out-title">Introduction</h2>
-
-        <figure>
-          <img id="out-picture" alt="Introduction headshot" style="max-width: 260px; height: auto;" />
-          <figcaption id="out-picture-caption"></figcaption>
-        </figure>
-
-        <p id="out-ack" class="muted"></p>
-
-        <h3 id="out-name"></h3>
-        <p><strong>Mascot:</strong> <span id="out-mascot"></span></p>
-
-        <p><strong>Personal Statement:</strong></p>
-        <p id="out-personal"></p>
-
-        <ul id="out-main-bullets"></ul>
-
-        <h3>Current Courses</h3>
-        <ul id="out-courses"></ul>
-
-        <blockquote id="out-quote-block">
-          <p id="out-quote"></p>
-          <cite id="out-quote-author"></cite>
-        </blockquote>
-
-        <p><em id="out-funny"></em></p>
-        <p id="out-share"></p>
-
-        <h3>Links</h3>
-        <ul id="out-links"></ul>
-      </section>
-    </template>
-
-    <!-- F</style>ORM -->
+    <!-- FORM -->
     <form id="intro-form" novalidate>
       <fieldset>
         <legend>Your Name</legend>
@@ -148,7 +189,7 @@
         <div class="row">
           <div>
             <label for="quote">Favorite Quote *</label>
-            <input id="quote" name="quote" type="text" required placeholder='e.g., "Stay hungry, stay foolish."' />
+            <input id="quote" name="quote" type="text" required placeholder='e.g., “The only way to do a great job is to love what you do.”' />
           </div>
           <div>
             <label for="quoteAuthor">Quote Author *</label>
@@ -162,8 +203,8 @@
             <input id="funny" name="funny" type="text" placeholder="Something fun or quirky" />
           </div>
           <div>
-            <label for="share">Something I’d Like to Share (optional)</label>
-            <input id="share" name="share" type="text" placeholder="Anything else?" />
+            <label for="share">Memorable Item (optional)</label>
+            <input id="share" name="share" type="text" placeholder="e.g., My cross pendant chain..." />
           </div>
         </div>
 
@@ -192,7 +233,7 @@
           <div class="row">
             <div>
               <label for="bullet5">Hobbies/Interests *</label>
-              <textarea id="bullet5" required placeholder="Hobbies."></textarea>
+              <textarea id="bullet5" required placeholder="Comma- or line-separated hobbies to fill the list."></textarea>
             </div>
             <div>
               <label for="bullet6">Goals *</label>
@@ -204,6 +245,26 @@
             <textarea id="bullet7" required placeholder="Something unique to you."></textarea>
           </div>
         </fieldset>
+      </fieldset>
+
+      <fieldset>
+        <legend>Primary Computer (optional)</legend>
+        <div class="row">
+          <div>
+            <label for="primary1">Item 1</label>
+            <input id="primary1" type="text" placeholder="e.g., HP Laptop" />
+          </div>
+          <div>
+            <label for="primary2">Item 2</label>
+            <input id="primary2" type="text" placeholder="e.g., Windows" />
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="primary3">Item 3</label>
+            <input id="primary3" type="text" placeholder="e.g., Used at the library and my apartment" />
+          </div>
+        </div>
       </fieldset>
 
       <fieldset>
@@ -280,16 +341,79 @@
       </div>
     </form>
 
-    <!-- Where we render the result after Submit -->
+    <!-- Where the result is injected after Submit -->
     <section id="resultSection" class="hidden"></section>
 
     <!-- Reset link after render -->
-    <p id="resultReset" class="result-reset hidden">
+    <p id="resultReset" class="hidden">
       <a href="#" id="doReset">Reset and fill again</a>
     </p>
+
+    <template id="intro-template">
+  <!-- Replicates exactly the inside of your real Introduction page's <main> -->
+  <!-- Keep the same inline style block for complete fidelity -->
+  <style>
+    main ul,
+    main ol {
+      text-align: left !important;
+      list-style-position: outside !important;
+      margin-left: 1.5rem !important;
+    }
+  </style>
+
+  <h2 id="out-title">Introduction</h2>
+
+  <figure class="profile">
+    <img id="out-picture" alt="" />
+    <figcaption id="out-picture-caption"></figcaption>
+  </figure>
+
+  <section aria-labelledby="about-heading">
+    <h3 id="about-heading">About Me</h3>
+    <p id="out-about"></p>
+  </section>
+
+  <section aria-labelledby="personal-background">
+    <h3 id="personal-background">Personal Background</h3>
+    <p>Hobbies I enjoy:</p>
+    <ul id="out-personal-list"></ul>
+  </section>
+
+  <section aria-labelledby="professional-background">
+    <h3 id="professional-background">Professional Background</h3>
+    <p id="out-professional"></p>
+  </section>
+
+  <section aria-labelledby="academic-background">
+    <h3 id="academic-background">Academic Background</h3>
+    <p id="out-academic"></p>
+  </section>
+
+  <section aria-labelledby="primary-computer">
+    <h3 id="primary-computer">Primary Computer</h3>
+    <ul id="out-primary-computer"></ul>
+  </section>
+
+  <section aria-labelledby="current-courses">
+    <h3 id="current-courses">Courses I’m Taking and Why</h3>
+    <ul id="out-courses"></ul>
+  </section>
+
+  <section aria-labelledby="memorable-item">
+    <h3 id="memorable-item">Memorable Item</h3>
+    <p id="out-memorable"></p>
+  </section>
+
+  <section aria-labelledby="favorite-quote">
+    <h3 id="favorite-quote">Favorite Quote</h3>
+    <blockquote>
+      <p id="out-quote"></p>
+      <footer>— <cite id="out-quote-author"></cite></footer>
+    </blockquote>
+  </section>
+</template>
   </main>
 
-  <!-- Your existing footer include (loads HTMLInclude.min.js for includes) -->
   <footer>
     <div data-include="components/footer.html"></div>
     <script src="scripts/HTMLInclude.min.js"></script>

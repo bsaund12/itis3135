@@ -9,61 +9,45 @@ const DEFAULTS = {
   mascotAnimal: "Shark",
   divider: "|",
   pictureUrl: "https://webpages.charlotte.edu/bsaund12/itis3135/images/meonthebeach.jpg",
-  pictureCaption: "Brian 'BJ' Saunders Jr.",
+  pictureCaption: "Me at Hilton Head Beach, August 2025",
   personalStatement:
-    "Junior CS major focusing on cybersecurity. I love building, breaking, and fixing systems, and I’m growing through projects, classes, and work.",
+    "Hi, my name is Brian B.J. Saunders. I’m 20 years old from Roxboro, NC. I’m majoring in Computer Science with a concentration in Cybersecurity. After graduation, I plan to work as a Cybersecurity Analyst. My dog’s name is Charlie.",
+  // 7 bullets mapping (we only need #2, #3, #5 for rendering to your exact layout)
   bullets: [
-    "Personal Background: biracial NC native, middle child, gym and climbing.",
-    "Academic Background: UNCC CS, Cybersecurity concentration.",
-    "Professional Background: Server/trainer at Church & Union; construction at Classic Industrial.",
-    "Courses & Interest Areas: Web dev, OS, data structures, security labs.",
-    "Hobbies/Interests: rock climbing, music, lifting.",
-    "Goals: land software/security internship; ship polished portfolio.",
+    "Personal Background: biracial NC native, middle child.",
+    "Academic Background: Junior CS (Cybersecurity), graduate May 2027.",
+    "Professional Background: Started with Python in 12th grade, career fairs, personal projects.",
+    "Courses & Interest Areas: Web dev, OS, data structures, security.",
+    "Hobbies/Interests: Going to the gym, Video games, Running",
+    "Goals: Software/Security internship; strong portfolio.",
     "Unique: building multiple brand sites, learning by doing."
   ],
-  quote: "Stay hungry, stay foolish.",
+  quote: "The only way to do a great job is to love what you do.",
   quoteAuthor: "Steve Jobs",
-  funny: "I name my side projects like bands.",
-  share: "Ask me about my Bashful Shark site.",
+  funny: "",
+  // Shown in “Memorable Item” section (we use `share` field for this)
+  memorableItem: "My cross pendant chain given to me by my grandmother. I wear it every day.",
+  share: "My cross pendant chain given to me by my grandmother. I wear it every day.",
   links: [
     { text: "LinkedIn", url: "https://www.linkedin.com/in/your-handle" },
     { text: "GitHub", url: "https://github.com/bsaund12" },
     { text: "Portfolio", url: "https://bsaundersdesign.co" },
     { text: "Resume", url: "https://bsaundersdesign.co/resume.pdf" },
-    { text: "UNCC Webspace", url: "https://webpages.charlotte.edu/UNCCID/" }
+    { text: "UNCC Webspace", url: "https://webpages.charlotte.edu/bsaund12/" }
   ],
+  // Primary Computer list (3 items)
+  primaryComputer: ["HP Laptop", "Windows", "Used at the library and my apartment"],
+  // Seed courses (format will be rendered exactly like your page)
   courses: [
-    { dept: "ITIS", number: "3135", name: "Web App Design/Dev", reason: "Portfolio and real UX." },
-    { dept: "ITIS", number: "3146", name: "Operating Systems", reason: "Processes, threads, memory." },
-    { dept: "ITIS", number: "2214", name: "Data Structures & Algos (Java)", reason: "Core CS skills." },
-    { dept: "ITIS", number: "3136", name: "Design Firm", reason: "Client-style delivery." },
-    { dept: "STAT", number: "2122", name: "Statistics", reason: "Data intuition." }
+    { dept: "ITIS", number: "3155", name: "Software Engineering", reason: "Wanted to see what software engineering was about." },
+    { dept: "ITSC", number: "3146", name: "Intro Oper Syst & Networking", reason: "Wanted to see how operating systems work within a computer." },
+    { dept: "ITSC", number: "3135", name: "Front-End Web Development", reason: "Wanted to see how front-end development worked." },
+    { dept: "ITSC", number: "3688", name: "Comp and their Impact on Society", reason: "Interested in the way computers impact society." },
+    { dept: "STAT", number: "2122", name: "Intro to Prob and Stat", reason: "Requirement for my program." }
   ]
 };
-// Ensure any previously rendered introduction pages are removed when the user resets
-function clearPreviousIntroductions() {
-    // Clear the dedicated result container if present
-    const resultSection = document.querySelector("#resultSection");
-    if (resultSection) resultSection.innerHTML = "";
 
-    // Remove any leftover elements produced by the template (IDs prefixed with "out-")
-    document.querySelectorAll("[id^='out-']").forEach(n => n.remove());
-
-    // If any blob/object URLs were created and attached to elements, revoke them and remove those elements.
-    // We look for elements that might have a data-object-url or data-generated-object-url attribute.
-    document.querySelectorAll("[data-object-url], [data-generated-object-url]").forEach(el => {
-        const url = el.dataset.objectUrl || el.dataset.generatedObjectUrl;
-        if (url) try { URL.revokeObjectURL(url); } catch (e) {}
-        el.remove();
-    });
-}
-
-// Hook reset actions so previous outputs are cleared (works alongside existing handlers)
-document.addEventListener("click", (e) => {
-    const id = e.target && e.target.id;
-    if (id === "doReset" || id === "resetBtn") clearPreviousIntroductions();
-});
-// ====== UTIL ======
+/* ========= UTILITIES ========= */
 const $ = sel => document.querySelector(sel);
 const el = (tag, props = {}, ...children) => {
   const e = document.createElement(tag);
@@ -73,7 +57,7 @@ const el = (tag, props = {}, ...children) => {
     else if (k in e) e[k] = v;
     else e.setAttribute(k, v);
   });
-  for (const c of children) e.append(c.nodeType ? c : document.createTextNode(c));
+  for (const c of children) e.append(c?.nodeType ? c : document.createTextNode(String(c)));
   return e;
 };
 
@@ -81,17 +65,17 @@ function setValue(id, value) { const n = $("#"+id); if (n) n.value = value ?? ""
 function getValue(id) { const n = $("#"+id); return n ? n.value.trim() : ""; }
 function requiredOk(v) { return v !== ""; }
 
-// Gather textareas bullets
+/* ========= BULLETS ========= */
 function getBullets() {
   const ids = ["bullet1","bullet2","bullet3","bullet4","bullet5","bullet6","bullet7"];
-  return ids.map(id => getValue(id)).filter(Boolean);
+  return ids.map(id => getValue(id)).filter(v => v !== "");
 }
 function setBullets(vals) {
   const ids = ["bullet1","bullet2","bullet3","bullet4","bullet5","bullet6","bullet7"];
   ids.forEach((id, i) => setValue(id, vals[i] ?? ""));
 }
 
-// Links
+/* ========= LINKS ========= */
 function getLinks() {
   const pairs = [];
   for (let i = 1; i <= 5; i++) {
@@ -108,7 +92,7 @@ function setLinks(arr) {
   }
 }
 
-// ====== COURSES DYNAMIC ======
+/* ========= COURSES (dynamic add/remove) ========= */
 const coursesList = () => $("#coursesList");
 
 function addCourseRow(course = {dept:"", number:"", name:"", reason:""}) {
@@ -139,7 +123,6 @@ function addCourseRow(course = {dept:"", number:"", name:"", reason:""}) {
   );
   coursesList().append(card);
 }
-
 function getCourses() {
   const items = [];
   coursesList().querySelectorAll(".course-card").forEach(card => {
@@ -151,14 +134,20 @@ function getCourses() {
   });
   return items;
 }
-
 function setCourses(arr) {
   coursesList().innerHTML = "";
   (arr || []).forEach(addCourseRow);
   if ((arr || []).length === 0) addCourseRow(); // ensure at least one row
 }
 
-// ====== PREFILL / RESET / CLEAR ======
+/* ========= PRIMARY COMPUTER (optional 3 items) ========= */
+function getPrimaryComputer() {
+  return ["primary1","primary2","primary3"]
+    .map(id => (document.getElementById(id)?.value || "").trim())
+    .filter(Boolean);
+}
+
+/* ========= PREFILL / RESET / CLEAR ========= */
 function prefillWithDefaults() {
   setValue("firstName", DEFAULTS.firstName);
   setValue("middleName", DEFAULTS.middleName);
@@ -182,6 +171,15 @@ function prefillWithDefaults() {
   setValue("funny", DEFAULTS.funny);
   setValue("share", DEFAULTS.share);
 
+  // Primary Computer (optional)
+  const [p1, p2, p3] = DEFAULTS.primaryComputer || [];
+  const p1el = document.getElementById("primary1");
+  const p2el = document.getElementById("primary2");
+  const p3el = document.getElementById("primary3");
+  if (p1el) p1el.value = p1 || "";
+  if (p2el) p2el.value = p2 || "";
+  if (p3el) p3el.value = p3 || "";
+
   setLinks(DEFAULTS.links);
   setBullets(DEFAULTS.bullets);
   setCourses(DEFAULTS.courses);
@@ -203,7 +201,6 @@ function validateRequired() {
     "bullet1","bullet2","bullet3","bullet4","bullet5","bullet6","bullet7",
     "link1Text","link1Url","link2Text","link2Url","link3Text","link3Url","link4Text","link4Url","link5Text","link5Url"
   ];
-  // Basic check
   for (const id of requiredIds) {
     const v = getValue(id);
     if (!requiredOk(v)) {
@@ -212,7 +209,7 @@ function validateRequired() {
       return false;
     }
   }
-  // Courses: ensure each row is complete
+  // Courses completeness
   const courses = getCourses();
   if (courses.length === 0) {
     alert("Please add at least one course.");
@@ -227,70 +224,92 @@ function validateRequired() {
   return true;
 }
 
-// ====== RENDER RESULT ======
+/* ========= RENDER RESULT: replicates your Introduction page structure ========= */
 function buildOutputHTML(data) {
-  // Use the <template> if provided, else build a default layout (already in template).
-  const tpl = $("#intro-template");
+  const tpl = document.querySelector("#intro-template");
+  if (!tpl) {
+    // build a minimal fallback if template missing
+    return el("div", {}, "Template not found.");
+  }
   const frag = tpl.content.cloneNode(true);
 
-  // Title: match your original H2 text if needed; rubric says only H2 differs by “Introduction Form”
-  frag.querySelector("#out-title").textContent = "Introduction";
+  // Insert the exact inline style block your page uses (kept in template for fidelity)
 
-  // Picture: prefer uploaded file if provided
-  const imgEl = frag.querySelector("#out-picture");
-  if (data.pictureObjectURL) {
-    imgEl.src = data.pictureObjectURL;
-  } else {
-    imgEl.src = data.pictureUrl;
+  // H2 title
+  // Your real page shows "Introduction", so we use that here
+  const title = frag.querySelector("#out-title");
+  if (title) title.textContent = "Introduction";
+
+  // Figure (image + caption)
+  const img = frag.querySelector("#out-picture");
+  if (img) {
+    const fileInput = $("#pictureFile");
+    const file = fileInput?.files?.[0];
+    const objectUrl = file ? URL.createObjectURL(file) : "";
+    img.src = objectUrl || data.pictureUrl;
+    img.alt = data.pictureCaption || "Profile photo";
+    if (objectUrl) img.dataset.objectUrl = objectUrl; // so we could revoke later if needed
+  }
+  const cap = frag.querySelector("#out-picture-caption");
+  if (cap) cap.textContent = data.pictureCaption;
+
+  // About Me (use Personal Statement)
+  const about = frag.querySelector("#out-about");
+  if (about) about.textContent = data.personalStatement;
+
+  // Personal Background list (use bullet5: hobbies/interests)
+  const hobbiesSrc = data.bullets?.[4] || "";
+  const hobbies = hobbiesSrc.split(/[,|\n]/).map(s => s.trim()).filter(Boolean);
+  const pbList = frag.querySelector("#out-personal-list");
+  if (pbList) {
+    pbList.innerHTML = "";
+    if (hobbies.length) hobbies.forEach(h => pbList.append(el("li", {}, h)));
   }
 
-  frag.querySelector("#out-picture-caption").textContent = data.pictureCaption;
+  // Professional Background (bullet3)
+  const prof = frag.querySelector("#out-professional");
+  if (prof) prof.textContent = data.bullets?.[2] || "";
 
-  // Acknowledgment
-  frag.querySelector("#out-ack").textContent = `${data.ackStatement} (${data.ackDate})`;
+  // Academic Background (bullet2)
+  const acad = frag.querySelector("#out-academic");
+  if (acad) acad.textContent = data.bullets?.[1] || "";
 
-  // Name
-  const fullName = [data.firstName, data.middleName, data.lastName].filter(Boolean).join(" ");
-  const nameLine = data.nickName ? `${fullName} (${data.nickName})` : fullName;
-  frag.querySelector("#out-name").textContent = nameLine;
+  // Primary Computer (either inputs, or defaults)
+  const primary = (data.primaryComputer && data.primaryComputer.length)
+    ? data.primaryComputer
+    : DEFAULTS.primaryComputer;
+  const pcUl = frag.querySelector("#out-primary-computer");
+  if (pcUl) {
+    pcUl.innerHTML = "";
+    primary.forEach(item => pcUl.append(el("li", {}, item)));
+  }
 
-  // Mascot
-  frag.querySelector("#out-mascot").textContent = `${data.mascotAdj} ${data.mascotAnimal} ${data.divider}`;
-
-  // Personal statement
-  frag.querySelector("#out-personal").textContent = data.personalStatement;
-
-  // 7 bullets
-  const bulletsUl = frag.querySelector("#out-main-bullets");
-  data.bullets.forEach(b => bulletsUl.append(el("li", {}, b)));
-
-  // Courses
+  // Courses — format exactly like your page:
+  // <strong>ITSC-3146 (Intro Oper Syst & Networking):</strong> Reason
   const coursesUl = frag.querySelector("#out-courses");
-  data.courses.forEach(c => {
-    coursesUl.append(el("li", {}, `${c.dept} ${c.number} – ${c.name}: ${c.reason}`));
-  });
+  if (coursesUl) {
+    coursesUl.innerHTML = "";
+    data.courses.forEach(c => {
+      const code = `${c.dept}-${c.number}`;
+      const strong = el("strong", {}, `${code} (${c.name}):`);
+      coursesUl.append(el("li", {}, strong, " ", c.reason));
+    });
+  }
+
+  // Memorable Item — from "share" (or default memorableItem)
+  const mem = frag.querySelector("#out-memorable");
+  if (mem) mem.textContent = data.share || DEFAULTS.memorableItem;
 
   // Quote
-  frag.querySelector("#out-quote").textContent = data.quote;
-  frag.querySelector("#out-quote-author").textContent = data.quoteAuthor;
-
-  // Optionals
-  if (data.funny) frag.querySelector("#out-funny").textContent = data.funny;
-  else frag.querySelector("#out-funny").remove();
-
-  if (data.share) frag.querySelector("#out-share").textContent = data.share;
-  else frag.querySelector("#out-share").remove();
-
-  // Links
-  const linksUl = frag.querySelector("#out-links");
-  data.links.forEach(({text, url}) => {
-    const a = el("a", { href: url, target: "_blank", rel: "noopener" }, text);
-    linksUl.append(el("li", {}, a));
-  });
+  const quoteP = frag.querySelector("#out-quote");
+  const quoteCite = frag.querySelector("#out-quote-author");
+  if (quoteP) quoteP.textContent = `“${data.quote.replace(/^["“]|["”]$/g, "")}”`;
+  if (quoteCite) quoteCite.textContent = data.quoteAuthor;
 
   return frag;
 }
 
+/* ========= GATHER FORM DATA ========= */
 function gatherFormData() {
   const fileInput = $("#pictureFile");
   const file = fileInput?.files?.[0];
@@ -316,11 +335,12 @@ function gatherFormData() {
     quoteAuthor: getValue("quoteAuthor"),
     funny: getValue("funny"),
     share: getValue("share"),
-    links: getLinks()
+    links: getLinks(),
+    primaryComputer: getPrimaryComputer()
   };
 }
 
-// ====== INIT ======
+/* ========= INIT ========= */
 document.addEventListener("DOMContentLoaded", () => {
   const form = $("#intro-form");
   const addCourseBtn = $("#addCourseBtn");
@@ -329,41 +349,46 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultReset = $("#resultReset");
   const doReset = $("#doReset");
 
+  // Prefill with your defaults
   prefillWithDefaults();
 
-  // Add course button
+  // Seed at least one course row
+  if (!coursesList().children.length) addCourseRow();
+
+  // Add course rows dynamically
   addCourseBtn.addEventListener("click", () => addCourseRow());
 
   // Prevent default page reload on submit
   form.addEventListener("submit", (e) => e.preventDefault());
 
-  // Submit: validate, then render result and hide form
+  // Submit -> validate -> render exact intro layout -> hide form
   $("#submitBtn").addEventListener("click", () => {
     if (!validateRequired()) return;
     const data = gatherFormData();
 
-    // Replace the form with the rendered content (but keep reset link)
     form.classList.add("hidden");
-    resultSection.innerHTML = ""; // clear any prior render
-    resultSection.append(buildOutputHTML(data));
+    resultSection.innerHTML = "";
+
+    // Inject EXACT intro markup (from template)
+    const frag = buildOutputHTML(data);
+    resultSection.append(frag);
     resultSection.classList.remove("hidden");
     resultReset.classList.remove("hidden");
   });
 
-  // Reset: return to DEFAULTS (browser reset restores value= attributes only, so we do both)
+  // Reset -> return to defaults
   $("#resetBtn").addEventListener("click", () => {
-    // Allow default reset first, then reapply our DEFAULTS for dynamic sections
     setTimeout(() => {
       prefillWithDefaults();
     }, 0);
   });
 
-  // “Clear” empties every field including courses
+  // Clear -> blank everything and one empty course row
   clearBtn.addEventListener("click", () => {
     clearAllFields();
   });
 
-  // Reset link shown under results restores the form so visitors can try again
+  // Reset link -> show form again and prefill defaults
   doReset.addEventListener("click", (e) => {
     e.preventDefault();
     resultSection.classList.add("hidden");
