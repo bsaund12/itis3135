@@ -85,13 +85,19 @@ const DEFAULTS = {
   }
 
   // Whenever user clicks the submit/generate buttons, add the back button after the view switches.
-  document.addEventListener("click", (e) => {
-    const id = e.target?.id;
-    if (id === "submitBtn" || id === "generateJsonBtn") {
-      // allow existing handlers to run first (they hide/show sections), then insert the back button
-      setTimeout(createBackButton, 40);
-    }
-  });
+  document.addEventListener("click", function (e) {
+  var target = e.target || e.srcElement;   // safe across older browsers/linters
+  var id = target ? target.id : "";
+
+  if (id === "submitBtn" || id === "generateJsonBtn") {
+    // allow existing handlers to run first (they hide/show sections), then insert the back button
+    setTimeout(function () {
+      if (typeof createBackButton === "function") {
+        createBackButton();
+      }
+    }, 40);
+  }
+});
 
   // Also watch for the result area becoming visible (in case other code shows it)
   document.addEventListener("DOMContentLoaded", () => {
