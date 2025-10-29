@@ -12,6 +12,17 @@
 
 <script defer src="scripts/generate_json.js"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<!-- HTML uses the XML highlighter in HLJS -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+
+<!-- Your main ES5 intro script (the big one you already fixed) -->
+<script defer src="scripts/intro_form_es5.js"></script>
+
+<!-- NEW: literal HTML generator -->
+<script defer src="scripts/generate_html.js"></script>
+
   <!-- Use the SAME stylesheet as your main introduction page -->
   <link rel="stylesheet" href="styles/default.css" />
 
@@ -346,6 +357,7 @@
         <button type="reset" id="resetBtn">Reset</button>
         <button type="button" id="clearBtn">Clear</button>
         <button type="button" id="generateJsonBtn">Generate JSON</button>
+        <button type="button" id="generateHtmlBtn">Generate HTML</button>
       </div>
     </form>
 
