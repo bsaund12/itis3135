@@ -1,4 +1,4 @@
-const DEFAULTS = {
+var DEFAULTS = {
   firstName: "Brian",
   middleName: "Laval",
   nickName: "BJ",
@@ -12,7 +12,6 @@ const DEFAULTS = {
   pictureCaption: "Me at Hilton Head Beach, August 2025",
   personalStatement:
     "Hi, my name is Brian B.J. Saunders. I’m 20 years old from Roxboro, NC. I’m majoring in Computer Science with a concentration in Cybersecurity. After graduation, I plan to work as a Cybersecurity Analyst. My dog’s name is Charlie.",
-  // 7 bullets mapping (we only need #2, #3, #5 for rendering to your exact layout)
   bullets: [
     "Personal Background: biracial NC native, middle child.",
     "Academic Background: Junior CS (Cybersecurity), graduate May 2027.",
@@ -25,7 +24,6 @@ const DEFAULTS = {
   quote: "The only way to do a great job is to love what you do.",
   quoteAuthor: "Steve Jobs",
   funny: "",
-  // Shown in “Memorable Item” section (we use `share` field for this)
   memorableItem: "My cross pendant chain given to me by my grandmother. I wear it every day.",
   share: "My cross pendant chain given to me by my grandmother. I wear it every day.",
   links: [
@@ -35,9 +33,7 @@ const DEFAULTS = {
     { text: "Resume", url: "https://bsaundersdesign.co/resume.pdf" },
     { text: "UNCC Webspace", url: "https://webpages.charlotte.edu/bsaund12/" }
   ],
-  // Primary Computer list (3 items)
   primaryComputer: ["HP Laptop", "Windows", "Used at the library and my apartment"],
-  // Seed courses (format will be rendered exactly like your page)
   courses: [
     { dept: "ITIS", number: "3155", name: "Software Engineering", reason: "Wanted to see what software engineering was about." },
     { dept: "ITSC", number: "3146", name: "Intro Oper Syst & Networking", reason: "Wanted to see how operating systems work within a computer." },
@@ -46,170 +42,246 @@ const DEFAULTS = {
     { dept: "STAT", number: "2122", name: "Intro to Prob and Stat", reason: "Requirement for my program." }
   ]
 };
-// Back button helper: inserts a "Back to Introduction Form" button into the result area
+
+/* ========= BACK BUTTON HELPER ========= */
 (function () {
   function createBackButton() {
-    if (document.getElementById("backToFormBtn")) return; // already added
+    if (document.getElementById("backToFormBtn")) return;
 
-    const btn = document.createElement("button");
+    var btn = document.createElement("button");
     btn.type = "button";
     btn.id = "backToFormBtn";
     btn.className = "back-btn";
     btn.textContent = "Back to Introduction Form";
 
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", function (e) {
       e.preventDefault();
-      const form = document.getElementById("intro-form");
-      const resultSection = document.getElementById("resultSection");
-      const resultReset = document.getElementById("resultReset");
+      var form = document.getElementById("intro-form");
+      var resultSection = document.getElementById("resultSection");
+      var resultReset = document.getElementById("resultReset");
 
       if (resultSection) resultSection.classList.add("hidden");
       if (resultReset) resultReset.classList.add("hidden");
       if (form) {
         form.classList.remove("hidden");
-        // keep current form values (do not prefill/reset)
-        window.scrollTo({ top: form.offsetTop, behavior: "instant" });
+        try {
+          window.scrollTo({ top: form.offsetTop, behavior: "instant" });
+        } catch (err) {
+          window.scrollTo(0, form.offsetTop || 0);
+        }
       }
     });
 
-    const rs = document.getElementById("resultSection");
+    var rs = document.getElementById("resultSection");
     if (rs) {
       rs.insertAdjacentElement("afterbegin", btn);
     } else {
-      // if resultSection not available yet, wait for DOMContentLoaded
-      document.addEventListener("DOMContentLoaded", () => {
-        const rs2 = document.getElementById("resultSection");
+      document.addEventListener("DOMContentLoaded", function () {
+        var rs2 = document.getElementById("resultSection");
         if (rs2) rs2.insertAdjacentElement("afterbegin", btn);
-      }, { once: true });
+      }, false);
     }
   }
 
-  // Whenever user clicks the submit/generate buttons, add the back button after the view switches.
   document.addEventListener("click", function (e) {
-  var target = e.target || e.srcElement;   // safe across older browsers/linters
-  var id = target ? target.id : "";
+    var target = e.target || e.srcElement;
+    var id = target ? target.id : "";
+    if (id === "submitBtn" || id === "generateJsonBtn") {
+      setTimeout(function () {
+        if (typeof createBackButton === "function") {
+          createBackButton();
+        }
+      }, 40);
+    }
+  }, false);
 
-  if (id === "submitBtn" || id === "generateJsonBtn") {
-    // allow existing handlers to run first (they hide/show sections), then insert the back button
-    setTimeout(function () {
-      if (typeof createBackButton === "function") {
-        createBackButton();
-      }
-    }, 40);
-  }
-});
-
-  // Also watch for the result area becoming visible (in case other code shows it)
-  document.addEventListener("DOMContentLoaded", () => {
-    const resultReset = document.getElementById("resultReset");
-    const resultSection = document.getElementById("resultSection");
+  document.addEventListener("DOMContentLoaded", function () {
+    var resultReset = document.getElementById("resultReset");
+    var resultSection = document.getElementById("resultSection");
     if (!resultReset || !resultSection) return;
 
-    const mo = new MutationObserver(() => {
-      const visible = !resultSection.classList.contains("hidden") && getComputedStyle(resultSection).display !== "none";
+    var mo = new MutationObserver(function () {
+      var visible = !resultSection.classList.contains("hidden") && (getComputedStyle(resultSection).display !== "none");
       if (visible) createBackButton();
     });
     mo.observe(resultReset, { attributes: true, attributeFilter: ["class", "style"] });
-  });
+  }, false);
 })();
-/* ========= UTILITIES ========= */
-const $ = sel => document.querySelector(sel);
-const el = (tag, props = {}, ...children) => {
-  const e = document.createElement(tag);
-  Object.entries(props).forEach(([k, v]) => {
-    if (k === "class") e.className = v;
-    else if (k === "dataset") Object.assign(e.dataset, v);
-    else if (k in e) e[k] = v;
-    else e.setAttribute(k, v);
-  });
-  for (const c of children) e.append(c?.nodeType ? c : document.createTextNode(String(c)));
-  return e;
-};
 
-function setValue(id, value) { const n = $("#"+id); if (n) n.value = value ?? ""; }
-function getValue(id) { const n = $("#"+id); return n ? n.value.trim() : ""; }
+/* ========= UTILITIES ========= */
+function $(sel) { return document.querySelector(sel); }
+
+// ES5-safe element factory: el(tag, props, child1, child2, ...)
+function el(tag, props) {
+  var e = document.createElement(tag);
+  props = props || {};
+
+  // set properties/attributes (no Object.entries)
+  for (var k in props) {
+    if (!props.hasOwnProperty(k)) continue;
+    var v = props[k];
+    if (k === "class") {
+      e.className = v;
+    } else if (k === "dataset" && v && typeof v === "object") {
+      for (var dk in v) {
+        if (v.hasOwnProperty(dk)) e.dataset[dk] = v[dk];
+      }
+    } else if (k in e) {
+      try { e[k] = v; } catch (err) { e.setAttribute(k, v); }
+    } else {
+      e.setAttribute(k, v);
+    }
+  }
+
+  // append children (no rest params, no optional chaining)
+  for (var i = 2; i < arguments.length; i++) {
+    var c = arguments[i];
+    if (c && c.nodeType) {
+      e.appendChild(c);
+    } else if (c !== null && c !== undefined) {
+      e.appendChild(document.createTextNode(String(c)));
+    }
+  }
+  return e;
+}
+
+function setValue(id, value) {
+  var n = $("#" + id);
+  if (n) n.value = (value !== undefined && value !== null) ? value : "";
+}
+
+function getValue(id) {
+  var n = $("#" + id);
+  return n ? (n.value || "").trim() : "";
+}
+
 function requiredOk(v) { return v !== ""; }
 
 /* ========= BULLETS ========= */
 function getBullets() {
-  const ids = ["bullet1","bullet2","bullet3","bullet4","bullet5","bullet6","bullet7"];
-  return ids.map(id => getValue(id)).filter(v => v !== "");
+  var ids = ["bullet1","bullet2","bullet3","bullet4","bullet5","bullet6","bullet7"];
+  var out = [];
+  for (var i = 0; i < ids.length; i++) {
+    var val = getValue(ids[i]);
+    if (val !== "") out.push(val);
+  }
+  return out;
 }
+
 function setBullets(vals) {
-  const ids = ["bullet1","bullet2","bullet3","bullet4","bullet5","bullet6","bullet7"];
-  ids.forEach((id, i) => setValue(id, vals[i] ?? ""));
+  vals = vals || [];
+  var ids = ["bullet1","bullet2","bullet3","bullet4","bullet5","bullet6","bullet7"];
+  for (var i = 0; i < ids.length; i++) {
+    setValue(ids[i], (vals[i] !== undefined && vals[i] !== null) ? vals[i] : "");
+  }
 }
 
 /* ========= LINKS ========= */
 function getLinks() {
-  const pairs = [];
-  for (let i = 1; i <= 5; i++) {
-    const text = getValue(`link${i}Text`);
-    const url = getValue(`link${i}Url`);
-    pairs.push({ text, url });
+  var pairs = [];
+  for (var i = 1; i <= 5; i++) {
+    var text = getValue("link" + i + "Text");
+    var url = getValue("link" + i + "Url");
+    pairs.push({ text: text, url: url });
   }
   return pairs;
 }
+
 function setLinks(arr) {
-  for (let i = 1; i <= 5; i++) {
-    setValue(`link${i}Text`, arr[i-1]?.text ?? "");
-    setValue(`link${i}Url`, arr[i-1]?.url ?? "");
+  arr = arr || [];
+  for (var i = 1; i <= 5; i++) {
+    var obj = arr[i - 1] || {};
+    setValue("link" + i + "Text", obj.text || "");
+    setValue("link" + i + "Url", obj.url || "");
   }
 }
 
-/* ========= COURSES (dynamic add/remove) ========= */
-const coursesList = () => $("#coursesList");
+/* ========= COURSES ========= */
+function coursesList() { return $("#coursesList"); }
 
-function addCourseRow(course = {dept:"", number:"", name:"", reason:""}) {
-  const idx = crypto.randomUUID();
-  const card = el("div", { class: "course-card", id: `course-${idx}` },
-    el("div", { class: "topline" },
+function _uid() {
+  return "id" + (new Date().getTime()) + "_" + Math.floor(Math.random() * 1000000);
+}
+
+function addCourseRow(course) {
+  course = course || { dept: "", number: "", name: "", reason: "" };
+  var idx = _uid();
+
+  var card = el("div", { "class": "course-card", id: "course-" + idx },
+    el("div", { "class": "topline" },
       el("strong", {}, "Course"),
-      el("button", { type: "button", class: "danger", onclick: () => card.remove() }, "Remove")
+      el("button", {
+        type: "button",
+        "class": "danger",
+        onclick: function () {
+          var p = card.parentNode;
+          if (p) p.removeChild(card);
+        }
+      }, "Remove")
     ),
-    el("div", { class: "row" },
+    el("div", { "class": "row" },
       el("div", {},
-        el("label", { for: `dept-${idx}` }, "Department *"),
-        el("input", { id: `dept-${idx}`, type: "text", required: true, placeholder: "e.g., ITIS", value: course.dept || "" })
+        el("label", { "for": "dept-" + idx }, "Department *"),
+        el("input", { id: "dept-" + idx, type: "text", required: true, placeholder: "e.g., ITIS", value: course.dept || "" })
       ),
       el("div", {},
-        el("label", { for: `num-${idx}` }, "Number *"),
-        el("input", { id: `num-${idx}`, type: "text", required: true, placeholder: "e.g., 3135", value: course.number || "" })
+        el("label", { "for": "num-" + idx }, "Number *"),
+        el("input", { id: "num-" + idx, type: "text", required: true, placeholder: "e.g., 3135", value: course.number || "" })
       ),
       el("div", {},
-        el("label", { for: `name-${idx}` }, "Name *"),
-        el("input", { id: `name-${idx}`, type: "text", required: true, placeholder: "Course title", value: course.name || "" })
+        el("label", { "for": "name-" + idx }, "Name *"),
+        el("input", { id: "name-" + idx, type: "text", required: true, placeholder: "Course title", value: course.name || "" })
       ),
       el("div", {},
-        el("label", { for: `reason-${idx}` }, "Reason *"),
-        el("input", { id: `reason-${idx}`, type: "text", required: true, placeholder: "Why you're taking it", value: course.reason || "" })
+        el("label", { "for": "reason-" + idx }, "Reason *"),
+        el("input", { id: "reason-" + idx, type: "text", required: true, placeholder: "Why you're taking it", value: course.reason || "" })
       )
     )
   );
-  coursesList().append(card);
-}
-function getCourses() {
-  const items = [];
-  coursesList().querySelectorAll(".course-card").forEach(card => {
-    const dept = card.querySelector("input[id^='dept-']").value.trim();
-    const number = card.querySelector("input[id^='num-']").value.trim();
-    const name = card.querySelector("input[id^='name-']").value.trim();
-    const reason = card.querySelector("input[id^='reason-']").value.trim();
-    items.push({ dept, number, name, reason });
-  });
-  return items;
-}
-function setCourses(arr) {
-  coursesList().innerHTML = "";
-  (arr || []).forEach(addCourseRow);
-  if ((arr || []).length === 0) addCourseRow(); // ensure at least one row
+
+  var cl = coursesList();
+  if (cl) cl.appendChild(card);
 }
 
-/* ========= PRIMARY COMPUTER (optional 3 items) ========= */
+function getCourses() {
+  var items = [];
+  var cl = coursesList();
+  if (!cl) return items;
+  var cards = cl.querySelectorAll(".course-card");
+  for (var i = 0; i < cards.length; i++) {
+    var card = cards[i];
+    var deptEl = card.querySelector("input[id^='dept-']");
+    var numEl = card.querySelector("input[id^='num-']");
+    var nameEl = card.querySelector("input[id^='name-']");
+    var reasonEl = card.querySelector("input[id^='reason-']");
+    var dept = deptEl ? (deptEl.value || "").trim() : "";
+    var number = numEl ? (numEl.value || "").trim() : "";
+    var name = nameEl ? (nameEl.value || "").trim() : "";
+    var reason = reasonEl ? (reasonEl.value || "").trim() : "";
+    items.push({ dept: dept, number: number, name: name, reason: reason });
+  }
+  return items;
+}
+
+function setCourses(arr) {
+  var cl = coursesList();
+  if (!cl) return;
+  cl.innerHTML = "";
+  arr = arr || [];
+  for (var i = 0; i < arr.length; i++) addCourseRow(arr[i]);
+  if (arr.length === 0) addCourseRow(); // ensure one row
+}
+
+/* ========= PRIMARY COMPUTER ========= */
 function getPrimaryComputer() {
-  return ["primary1","primary2","primary3"]
-    .map(id => (document.getElementById(id)?.value || "").trim())
-    .filter(Boolean);
+  var out = [];
+  var ids = ["primary1","primary2","primary3"];
+  for (var i = 0; i < ids.length; i++) {
+    var elInput = document.getElementById(ids[i]);
+    var val = elInput ? (elInput.value || "").trim() : "";
+    if (val) out.push(val);
+  }
+  return out;
 }
 
 /* ========= PREFILL / RESET / CLEAR ========= */
@@ -236,14 +308,15 @@ function prefillWithDefaults() {
   setValue("funny", DEFAULTS.funny);
   setValue("share", DEFAULTS.share);
 
-  // Primary Computer (optional)
-  const [p1, p2, p3] = DEFAULTS.primaryComputer || [];
-  const p1el = document.getElementById("primary1");
-  const p2el = document.getElementById("primary2");
-  const p3el = document.getElementById("primary3");
-  if (p1el) p1el.value = p1 || "";
-  if (p2el) p2el.value = p2 || "";
-  if (p3el) p3el.value = p3 || "";
+  var p1 = DEFAULTS.primaryComputer[0] || "";
+  var p2 = DEFAULTS.primaryComputer[1] || "";
+  var p3 = DEFAULTS.primaryComputer[2] || "";
+  var p1el = document.getElementById("primary1");
+  var p2el = document.getElementById("primary2");
+  var p3el = document.getElementById("primary3");
+  if (p1el) p1el.value = p1;
+  if (p2el) p2el.value = p2;
+  if (p3el) p3el.value = p3;
 
   setLinks(DEFAULTS.links);
   setBullets(DEFAULTS.bullets);
@@ -251,14 +324,16 @@ function prefillWithDefaults() {
 }
 
 function clearAllFields() {
-  document.querySelectorAll("#intro-form input[type='text'], #intro-form input[type='url'], #intro-form input[type='date'], #intro-form textarea").forEach(i => i.value = "");
-  const file = $("#pictureFile"); if (file) file.value = "";
-  coursesList().innerHTML = "";
+  var nodes = document.querySelectorAll("#intro-form input[type='text'], #intro-form input[type='url'], #intro-form input[type='date'], #intro-form textarea");
+  for (var i = 0; i < nodes.length; i++) nodes[i].value = "";
+  var file = $("#pictureFile"); if (file) file.value = "";
+  var cl = coursesList();
+  if (cl) cl.innerHTML = "";
   addCourseRow();
 }
 
 function validateRequired() {
-  const requiredIds = [
+  var requiredIds = [
     "firstName","lastName","ackStatement","ackDate",
     "mascotAdj","mascotAnimal","divider",
     "pictureUrl","pictureCaption",
@@ -266,21 +341,23 @@ function validateRequired() {
     "bullet1","bullet2","bullet3","bullet4","bullet5","bullet6","bullet7",
     "link1Text","link1Url","link2Text","link2Url","link3Text","link3Url","link4Text","link4Url","link5Text","link5Url"
   ];
-  for (const id of requiredIds) {
-    const v = getValue(id);
+  for (var i = 0; i < requiredIds.length; i++) {
+    var id = requiredIds[i];
+    var v = getValue(id);
     if (!requiredOk(v)) {
-      alert(`Please complete the required field: ${id}`);
-      $("#"+id)?.focus();
+      alert("Please complete the required field: " + id);
+      var n = $("#" + id);
+      if (n && typeof n.focus === "function") n.focus();
       return false;
     }
   }
-  // Courses completeness
-  const courses = getCourses();
+  var courses = getCourses();
   if (courses.length === 0) {
     alert("Please add at least one course.");
     return false;
   }
-  for (const c of courses) {
+  for (var j = 0; j < courses.length; j++) {
+    var c = courses[j];
     if (!(c.dept && c.number && c.name && c.reason)) {
       alert("Each course needs department, number, name, and reason.");
       return false;
@@ -289,96 +366,95 @@ function validateRequired() {
   return true;
 }
 
-/* ========= RENDER RESULT: replicates your Introduction page structure ========= */
+/* ========= RENDER RESULT ========= */
 function buildOutputHTML(data) {
-  const tpl = document.querySelector("#intro-template");
+  var tpl = document.querySelector("#intro-template");
   if (!tpl) {
-    // build a minimal fallback if template missing
     return el("div", {}, "Template not found.");
   }
-  const frag = tpl.content.cloneNode(true);
+  var frag = tpl.content.cloneNode(true);
 
-  // Insert the exact inline style block your page uses (kept in template for fidelity)
-
-  // H2 title
-  // Your real page shows "Introduction", so we use that here
-  const title = frag.querySelector("#out-title");
+  var title = frag.querySelector("#out-title");
   if (title) title.textContent = "Introduction";
 
-  // Figure (image + caption)
-  const img = frag.querySelector("#out-picture");
+  var img = frag.querySelector("#out-picture");
   if (img) {
-    const fileInput = $("#pictureFile");
-    const file = fileInput?.files?.[0];
-    const objectUrl = file ? URL.createObjectURL(file) : "";
+    var fileInput = $("#pictureFile");
+    var file = (fileInput && fileInput.files && fileInput.files[0]) ? fileInput.files[0] : null;
+    var objectUrl = file ? URL.createObjectURL(file) : "";
     img.src = objectUrl || data.pictureUrl;
     img.alt = data.pictureCaption || "Profile photo";
-    if (objectUrl) img.dataset.objectUrl = objectUrl; // so we could revoke later if needed
+    if (objectUrl) img.dataset.objectUrl = objectUrl;
   }
-  const cap = frag.querySelector("#out-picture-caption");
+  var cap = frag.querySelector("#out-picture-caption");
   if (cap) cap.textContent = data.pictureCaption;
 
-  // About Me (use Personal Statement)
-  const about = frag.querySelector("#out-about");
+  var about = frag.querySelector("#out-about");
   if (about) about.textContent = data.personalStatement;
 
-  // Personal Background list (use bullet5: hobbies/interests)
-  const hobbiesSrc = data.bullets?.[4] || "";
-  const hobbies = hobbiesSrc.split(/[,|\n]/).map(s => s.trim()).filter(Boolean);
-  const pbList = frag.querySelector("#out-personal-list");
+  var hobbiesSrc = (data.bullets && data.bullets.length > 4) ? data.bullets[4] : "";
+  var hobbies = [];
+  if (hobbiesSrc) {
+    var parts = hobbiesSrc.split(/[,|\n]/);
+    for (var i = 0; i < parts.length; i++) {
+      var s = (parts[i] || "").trim();
+      if (s) hobbies.push(s);
+    }
+  }
+  var pbList = frag.querySelector("#out-personal-list");
   if (pbList) {
     pbList.innerHTML = "";
-    if (hobbies.length) hobbies.forEach(h => pbList.append(el("li", {}, h)));
+    if (hobbies.length) {
+      for (var h = 0; h < hobbies.length; h++) {
+        pbList.appendChild(el("li", {}, hobbies[h]));
+      }
+    }
   }
 
-  // Professional Background (bullet3)
-  const prof = frag.querySelector("#out-professional");
-  if (prof) prof.textContent = data.bullets?.[2] || "";
+  var prof = frag.querySelector("#out-professional");
+  if (prof) prof.textContent = (data.bullets && data.bullets[2]) ? data.bullets[2] : "";
 
-  // Academic Background (bullet2)
-  const acad = frag.querySelector("#out-academic");
-  if (acad) acad.textContent = data.bullets?.[1] || "";
+  var acad = frag.querySelector("#out-academic");
+  if (acad) acad.textContent = (data.bullets && data.bullets[1]) ? data.bullets[1] : "";
 
-  // Primary Computer (either inputs, or defaults)
-  const primary = (data.primaryComputer && data.primaryComputer.length)
+  var primary = (data.primaryComputer && data.primaryComputer.length)
     ? data.primaryComputer
     : DEFAULTS.primaryComputer;
-  const pcUl = frag.querySelector("#out-primary-computer");
+  var pcUl = frag.querySelector("#out-primary-computer");
   if (pcUl) {
     pcUl.innerHTML = "";
-    primary.forEach(item => pcUl.append(el("li", {}, item)));
+    for (var p = 0; p < primary.length; p++) {
+      pcUl.appendChild(el("li", {}, primary[p]));
+    }
   }
 
-  // Courses — format exactly like your page:
-  // <strong>ITSC-3146 (Intro Oper Syst & Networking):</strong> Reason
-  const coursesUl = frag.querySelector("#out-courses");
+  var coursesUl = frag.querySelector("#out-courses");
   if (coursesUl) {
     coursesUl.innerHTML = "";
-    data.courses.forEach(c => {
-      const code = `${c.dept}-${c.number}`;
-      const strong = el("strong", {}, `${code} (${c.name}):`);
-      coursesUl.append(el("li", {}, strong, " ", c.reason));
-    });
+    for (var ci = 0; ci < data.courses.length; ci++) {
+      var c = data.courses[ci];
+      var code = (c.dept || "") + "-" + (c.number || "");
+      var strong = el("strong", {}, code + " (" + (c.name || "") + "):");
+      coursesUl.appendChild(el("li", {}, strong, " " + (c.reason || "")));
+    }
   }
 
-  // Memorable Item — from "share" (or default memorableItem)
-  const mem = frag.querySelector("#out-memorable");
+  var mem = frag.querySelector("#out-memorable");
   if (mem) mem.textContent = data.share || DEFAULTS.memorableItem;
 
-  // Quote
-  const quoteP = frag.querySelector("#out-quote");
-  const quoteCite = frag.querySelector("#out-quote-author");
-  if (quoteP) quoteP.textContent = `“${data.quote.replace(/^["“]|["”]$/g, "")}”`;
-  if (quoteCite) quoteCite.textContent = data.quoteAuthor;
+  var quoteP = frag.querySelector("#out-quote");
+  var quoteCite = frag.querySelector("#out-quote-author");
+  if (quoteP) quoteP.textContent = "“" + (data.quote ? data.quote.replace(/^["“]|["”]$/g, "") : "") + "”";
+  if (quoteCite) quoteCite.textContent = data.quoteAuthor || "";
 
   return frag;
 }
 
 /* ========= GATHER FORM DATA ========= */
 function gatherFormData() {
-  const fileInput = $("#pictureFile");
-  const file = fileInput?.files?.[0];
-  const objectUrl = file ? URL.createObjectURL(file) : "";
+  var fileInput = $("#pictureFile");
+  var file = (fileInput && fileInput.files && fileInput.files[0]) ? fileInput.files[0] : null;
+  var objectUrl = file ? URL.createObjectURL(file) : "";
 
   return {
     firstName: getValue("firstName"),
@@ -406,60 +482,68 @@ function gatherFormData() {
 }
 
 /* ========= INIT ========= */
-document.addEventListener("DOMContentLoaded", () => {
-  const form = $("#intro-form");
-  const addCourseBtn = $("#addCourseBtn");
-  const clearBtn = $("#clearBtn");
-  const resultSection = $("#resultSection");
-  const resultReset = $("#resultReset");
-  const doReset = $("#doReset");
+document.addEventListener("DOMContentLoaded", function () {
+  var form = $("#intro-form");
+  var addCourseBtn = $("#addCourseBtn");
+  var clearBtn = $("#clearBtn");
+  var resultSection = $("#resultSection");
+  var resultReset = $("#resultReset");
+  var doReset = $("#doReset");
 
-  // Prefill with your defaults
   prefillWithDefaults();
 
-  // Seed at least one course row
-  if (!coursesList().children.length) addCourseRow();
+  var cl = coursesList();
+  if (cl && !cl.children.length) addCourseRow();
 
-  // Add course rows dynamically
-  addCourseBtn.addEventListener("click", () => addCourseRow());
+  if (addCourseBtn) {
+    addCourseBtn.addEventListener("click", function () { addCourseRow(); });
+  }
 
-  // Prevent default page reload on submit
-  form.addEventListener("submit", (e) => e.preventDefault());
+  if (form) {
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+  }
 
-  // Submit -> validate -> render exact intro layout -> hide form
-  $("#submitBtn").addEventListener("click", () => {
-    if (!validateRequired()) return;
-    const data = gatherFormData();
+  var submitBtn = $("#submitBtn");
+  if (submitBtn) {
+    submitBtn.addEventListener("click", function () {
+      if (!validateRequired()) return;
+      var data = gatherFormData();
 
-    form.classList.add("hidden");
-    resultSection.innerHTML = "";
+      if (form) form.classList.add("hidden");
+      if (resultSection) resultSection.innerHTML = "";
 
-    // Inject EXACT intro markup (from template)
-    const frag = buildOutputHTML(data);
-    resultSection.append(frag);
-    resultSection.classList.remove("hidden");
-    resultReset.classList.remove("hidden");
-  });
+      var frag = buildOutputHTML(data);
+      if (resultSection) {
+        resultSection.appendChild(frag);
+        resultSection.classList.remove("hidden");
+      }
+      if (resultReset) resultReset.classList.remove("hidden");
+    });
+  }
 
-  // Reset -> return to defaults
-  $("#resetBtn").addEventListener("click", () => {
-    setTimeout(() => {
+  var resetBtn = $("#resetBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", function () {
+      setTimeout(function () { prefillWithDefaults(); }, 0);
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", function () { clearAllFields(); });
+  }
+
+  if (doReset) {
+    doReset.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (resultSection) resultSection.classList.add("hidden");
+      if (resultReset) resultReset.classList.add("hidden");
+      if (form) form.classList.remove("hidden");
       prefillWithDefaults();
-    }, 0);
-  });
-
-  // Clear -> blank everything and one empty course row
-  clearBtn.addEventListener("click", () => {
-    clearAllFields();
-  });
-
-  // Reset link -> show form again and prefill defaults
-  doReset.addEventListener("click", (e) => {
-    e.preventDefault();
-    resultSection.classList.add("hidden");
-    resultReset.classList.add("hidden");
-    form.classList.remove("hidden");
-    prefillWithDefaults();
-    window.scrollTo({ top: form.offsetTop, behavior: "instant" });
-  });
-});
+      try {
+        window.scrollTo({ top: form ? form.offsetTop : 0, behavior: "instant" });
+      } catch (err) {
+        window.scrollTo(0, form ? form.offsetTop : 0);
+      }
+    });
+  }
+}, false);
