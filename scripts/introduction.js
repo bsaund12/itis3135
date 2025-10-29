@@ -46,7 +46,66 @@ const DEFAULTS = {
     { dept: "STAT", number: "2122", name: "Intro to Prob and Stat", reason: "Requirement for my program." }
   ]
 };
+// Back button helper: inserts a "Back to Introduction Form" button into the result area
+(function () {
+  function createBackButton() {
+    if (document.getElementById("backToFormBtn")) return; // already added
 
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.id = "backToFormBtn";
+    btn.className = "back-btn";
+    btn.textContent = "Back to Introduction Form";
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const form = document.getElementById("intro-form");
+      const resultSection = document.getElementById("resultSection");
+      const resultReset = document.getElementById("resultReset");
+
+      if (resultSection) resultSection.classList.add("hidden");
+      if (resultReset) resultReset.classList.add("hidden");
+      if (form) {
+        form.classList.remove("hidden");
+        // keep current form values (do not prefill/reset)
+        window.scrollTo({ top: form.offsetTop, behavior: "instant" });
+      }
+    });
+
+    const rs = document.getElementById("resultSection");
+    if (rs) {
+      rs.insertAdjacentElement("afterbegin", btn);
+    } else {
+      // if resultSection not available yet, wait for DOMContentLoaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const rs2 = document.getElementById("resultSection");
+        if (rs2) rs2.insertAdjacentElement("afterbegin", btn);
+      }, { once: true });
+    }
+  }
+
+  // Whenever user clicks the submit/generate buttons, add the back button after the view switches.
+  document.addEventListener("click", (e) => {
+    const id = e.target?.id;
+    if (id === "submitBtn" || id === "generateJsonBtn") {
+      // allow existing handlers to run first (they hide/show sections), then insert the back button
+      setTimeout(createBackButton, 40);
+    }
+  });
+
+  // Also watch for the result area becoming visible (in case other code shows it)
+  document.addEventListener("DOMContentLoaded", () => {
+    const resultReset = document.getElementById("resultReset");
+    const resultSection = document.getElementById("resultSection");
+    if (!resultReset || !resultSection) return;
+
+    const mo = new MutationObserver(() => {
+      const visible = !resultSection.classList.contains("hidden") && getComputedStyle(resultSection).display !== "none";
+      if (visible) createBackButton();
+    });
+    mo.observe(resultReset, { attributes: true, attributeFilter: ["class", "style"] });
+  });
+})();
 /* ========= UTILITIES ========= */
 const $ = sel => document.querySelector(sel);
 const el = (tag, props = {}, ...children) => {
