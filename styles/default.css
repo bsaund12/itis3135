@@ -26,6 +26,7 @@ h1 {
   margin: 0 0 .5rem 0;
   font-size: 1.25rem;
   letter-spacing: .2px;
+  text-align: center;
 }
 nav ul {
   display: flex; flex-wrap: wrap; gap: .75rem;
@@ -91,7 +92,7 @@ footer a { text-decoration: none; }
 }
 
 body{
-  text-align:center;
+
   font-family: Arial, sans-serif;
 }
 table {

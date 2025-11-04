@@ -13,7 +13,184 @@
   </header>
 
   <main>
-    
+    <h1>Client Project Overview</h1>
+    <p>This document provides an overview of the project, including its objectives, scope, and deliverables.</p>
+    <p><strong>Purpose:</strong>
+        SoundStage is a mobile-first mini-site for an indie artist/DJ that centralizes essentials, bio, playable tracks, gigs with maps, gallery, and a contact/setlist form, so fans and promoters can quickly discover the music and take action. A client-side “Music Explorer” (read-only iTunes Search API) encourages discovery of related tracks without server-side storage. All interactivity (jQuery UI, Web Audio visualizer, AJAX fetch) remains strictly client-side to meet course constraints while keeping the site fast, accessible, and easy to maintain.
+    </p>
+    <p><strong>Intended Users:</strong>
+        <ul>
+            <li>Fans & prospective fans</li>
+            <li>Event organizers/venues</li>
+            <li>Classmates/peers evaluating the project</li>
+        </ul>
+    </p>
+    <br>
+    <p><strong>Overview of Content:</strong></p>
+    <ul>
+        <li>Artist Bio: Artist background, influences, and career highlights.</li>
+        <li>Music Samples: Playable tracks with a client-side Music Explorer for discovering related music.</li>
+        <li>Gigs: Upcoming events with embedded maps for venue locations.</li>
+        <li>Gallery: Photos and videos from past performances.</li>
+        <li>Contact/Setlist Form: For fans to reach out and request songs for events.</li>
+    </ul>
+    <br>
+    <h3>Client Information</h3>
+    <p><strong>Client Name:</strong> Adam "Sussy" Barnes</p>
+    <p><strong>Organization(s) client is associated with:</strong> University of North Carolina at Charlotte</p>
+    <p><strong>Client Email Address:</strong> abarne94@charlotte.edu</p>
+    <p><strong>Client Phone Number:</strong> [Private]</p>
+
+    <h3>Site Map:</h3>
+    <img src = "images/layout.drawio.png" alt="Site Map Layout for SoundStage Mini-Site" class="my portrait">
+    <h3>Wireframe:</h3>
+    <img src = "images/wireframe.png" alt="Wireframe Layout for SoundStage Mini-Site" class="my portrait">
+
+    <br>
+    <section>   
+        <h3>Homepage:</h3>
+        <p><strong>Name of Page:</strong> Homepage</p>
+        <p><strong>Purpose of Page:</strong> Introduce the artist, provide navigation to other sections, and highlight key content.</p>
+        <p><strong>Audience:</strong> Fans, event organizers, and peers.</p>
+        <p><strong>Content Elements:</strong>
+            <ul>
+                <li>Artist bio section with a brief overview and photo</li>
+                <li>Featured music tracks with play buttons</li>
+                <li>Upcoming gigs section with dates and locations</li>
+                <li>Gallery preview with thumbnails</li>
+                <li>Contact form for booking inquiries</li>
+            </ul>
+        </p>
+        <p><strong>Input/Validations: </strong>None</p>
+        <strong>UI Elements: </strong>
+            <ul>
+                <li>Navigation menu with links to other sections</li>
+                <li>Search bar for finding specific tracks or gigs</li>
+                <li>Buttons for playing music tracks</li>
+                <li>Interactive map for gig locations</li>
+            </ul>
+        <p><strong>Action: </strong> Navigate to other sections of the site</p>
+        <p><strong>Notes: </strong> HTML/CSS validator links in footer</p>
+    </section>
+
+    <br>
+    <section>    
+        <h3>About Page:</h3>
+        <p><strong>Name of Page:</strong> About</p>
+        <p><strong>Purpose of Page:</strong> Provide detailed information about the artist, including background, influences, and career highlights.</p>
+        <p><strong>Audience:</strong> Fans and event organizers.</p>
+        <p><strong>Content Elements:</strong>
+            <ul>
+                <li>Detailed artist biography</li>
+                <li>List of musical influences and inspirations</li>
+                <li>Career highlights and achievements</li>
+                <li>Photos of the artist</li>
+            </ul>
+        </p>
+        <p><strong>Input/Validations: </strong>None</p>
+        <strong>UI Elements: </strong>
+            <ul>
+                <li>Image gallery for artist photos</li>
+                <li>Text sections with headings for easy navigation</li>
+            </ul>
+        <p><strong>Action: </strong> Read about the artist</p>
+        <p><strong>Notes: </strong> Content will be engaging and informative to connect with the audience</p>
+    </section>
+
+    <br>
+    <section>
+        <h3>Music Explorer Page:</h3>
+        <p><strong>Name of Page:</strong> Music Explorer</p>
+        <p><strong>Purpose of Page:</strong> Allow users to explore and discover related music tracks using the iTunes Search API.</p>
+        <p><strong>Audience:</strong> Fans and music enthusiasts.</p>
+        <p><strong>Content Elements:</strong>
+            <ul>
+                <li>Search bar for entering artist names or track titles</li>
+                <li>Display area for search results with track details and play buttons</li>
+                <li>Related tracks section based on user searches</li>
+            </ul>
+        </p>
+        <p><strong>Input/Validations: </strong> Search input validation to ensure valid queries</p>
+        <strong>UI Elements: </strong>
+            <ul>
+                <li>Search bar with submit button</li>
+                <li>Dynamic display area for search results</li>
+                <li>Play buttons for each track</li>
+            </ul>
+        <p><strong>Action: </strong> Search for and play music tracks</p>
+        <p><strong>Notes: </strong> Utilizes AJAX to fetch data from the iTunes API without server-side storage</p>
+    </section>
+
+    <br>
+    <section>   
+        <h3>Contact/Setlist Form Page:</h3>
+        <p><strong>Name of Page:</strong> Contact/Setlist Form</p>
+        <p><strong>Purpose of Page:</strong> Provide a way for fans and event organizers to contact the artist and request songs for events.</p>
+        <p><strong>Audience:</strong> Fans and event organizers.</p>
+        <p><strong>Content Elements:</strong>
+            <ul>
+                <li>Contact form fields (name, email, message)</li>
+                <li>Setlist request fields (event date, requested songs)</li>
+                <li>Submit button</li>
+            </ul>
+        </p>
+        <p><strong>Input/Validations: </strong> Form validation for required fields and proper email format</p>
+        <strong>UI Elements: </strong>
+            <ul>
+                <li>Text input fields for name and email</li>
+                <li>Textarea for message and setlist requests</li>
+                <li>Submit button</li>
+            </ul>
+        <p><strong>Action: </strong> Submit contact and setlist requests</p>
+        <p><strong>Notes: </strong> Form submissions will be handled via email (no server-side storage)</p>
+    </section>
+
+    <br>
+    <section>   
+        <h3>Gigs Page:</h3>
+        <p><strong>Name of Page:</strong> Gigs</p>
+        <p><strong>Purpose of Page:</strong> Display upcoming events and gig details with embedded maps for venue locations.</p>
+        <p><strong>Audience:</strong> Fans and event organizers.</p>
+        <p><strong>Content Elements:</strong>
+            <ul>
+                <li>List of upcoming gigs with dates, venues, and locations</li>
+                <li>Embedded maps for each venue location</li>
+                <li>Links to purchase tickets (if applicable)</li>
+            </ul>
+        </p>
+        <p><strong>Input/Validations: </strong>None</p>
+        <strong>UI Elements: </strong>
+            <ul>
+                <li>Interactive maps for venue locations</li>
+                <li>Buttons/links for ticket purchases</li>
+            </ul>
+        <p><strong>Action: </strong> View gig details and navigate to ticket purchases</p>
+        <p><strong>Notes: </strong> Maps will be embedded using a mapping service (e.g., Google Maps)</p>
+    </section>
+
+    <br>
+    <section>   
+        <h3>Gallery Page:</h3>
+        <p><strong>Name of Page:</strong> Gallery</p>
+        <p><strong>Purpose of Page:</strong> Showcase photos and videos from past performances.</p>
+        <p><strong>Audience:</strong> Fans and music enthusiasts.</p>
+        <p><strong>Content Elements:</strong>
+            <ul>
+                <li>Photo gallery with thumbnails and lightbox view</li>
+                <li>Video section with embedded performance videos</li>
+            </ul>
+        </p>
+        <p><strong>Input/Validations: </strong>None</p>
+        <strong>UI Elements: </strong>
+            <ul>
+                <li>Thumbnail images for photos</li>
+                <li>Embedded video players</li>
+            </ul>
+        <p><strong>Action: </strong> View photos and watch performance videos</p>
+        <p><strong>Notes: </strong> Lightbox functionality for photo viewing will be implemented using jQuery UI</p>
+    </section>
+    <br>
+
   </main>
 
 
