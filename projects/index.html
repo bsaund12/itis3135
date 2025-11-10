@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="music.css" />
+    <script defer src="scripts/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">SoundStage</a>
+    <nav aria-label="Primary" class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="music.html">Music Explorer</a>
+      <a href="gigs.html">Gigs</a>
+      <a href="gallery.html">Gallery</a>
+    </nav>
+  </header>
+
+  <main id="home">
+    <!-- Hero -->
+    <section class="hero container">
+      <div class="hero-text">
+        <h1>Adam Barnes</h1>
+        <p class="lead">Dark R&B Artist — Dark and Mysterious, with a touch of the surreal.</p>
+        <div class="cta">
+          <a class="btn" href="music.html">Listen Now</a>
+          <a class="btn btn-secondary" href="gigs.html">See Gigs</a>
+        </div>
+      </div>
+      <figure class="hero-art">
+        <img src = "images/microphone.jpg" alt="Crimson red vibe" class="crimson">
+        <figcaption class="visually-hidden">Performance photo</figcaption>
+      </figure>
+    </section>
+
+    <!-- Featured tracks -->
+    <section class="container">
+      <h2>Featured Tracks</h2>
+      <div class="tracks-grid">
+        <article class="track-card">
+          <img src="images/music3.jpg" alt="Cover art: Night Drive">
+          <div>
+            <h3>Without You</h3>
+            <audio controls preload="none" src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars3.wav"></audio>
+          </div>
+        </article>
+        <article class="track-card">
+          <img src="images/music1.jpg" alt="Dark Aesthetic" >
+          <div>
+            <h3>Mine</h3>
+            <audio controls preload="none" src="https://www2.cs.uic.edu/~i101/SoundFiles/CantinaBand60.wav"></audio>
+          </div>
+        </article>
+        <article class="track-card">
+          <img src="images/music2.webp" alt="Cover art: Dawn Loop">
+          <div>
+            <h3>Chamber of Silence</h3>
+            <audio controls preload="none" src="https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav"></audio>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Upcoming gigs teaser -->
+    <section class="container">
+      <h2>Upcoming Gigs</h2>
+      <ul class="gigs-list">
+        <li>
+          <time datetime="2025-12-05">Dec 5</time> • The Underground, Charlotte, NC
+          <a class="link" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&query=The+Underground+Charlotte+NC">Directions</a>
+        </li>
+        <li>
+          <time datetime="2026-01-17">Jan 17</time> • Local 506, Chapel Hill, NC
+          <a class="link" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&query=Local+506+Chapel+Hill+NC">Directions</a>
+        </li>
+      </ul>
+      <p><a class="btn btn-secondary" href="gigs.html">View all gigs</a></p>
+    </section>
+
+    <!-- Gallery preview -->
+    <section class="container">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <img class="lb-thumb" src="https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=400&auto=format&fit=crop" alt="Crowd at a show">
+       <img class="lb-thumb noir"
+     src="https://images.pexels.com/photos/17205698/pexels-photo-17205698.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop"
+     alt="Black and white close-up as smoke rolls from lips into darkness" />
+     <img src = "images/dark.jpg" alt="Crimson red vibe" class="crimson">
+     <img src = "images/city.jpg" alt="City at night" class="Darkcity">
+      <p><a class="btn" href="gallery.html">Open full gallery</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>© 2025 SoundStage • <a class="link" href="https://validator.w3.org/nu/" target="_blank" rel="noopener">HTML Validator</a> • <a class="link" href="https://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener">CSS Validator</a></small>
+  </footer>
+
+  <!-- Lightbox modal (reused on Gallery page) -->
+  <dialog id="lightbox" class="lightbox">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <img id="lightbox-img" alt="">
+    <p id="lightbox-caption"></p>
+  </dialog>
+</body>
+</html>

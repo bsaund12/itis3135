@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SoundStage | Music Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="music.css" />
+  <script defer src="scripts/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">SoundStage</a>
+    <nav aria-label="Primary" class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="music.html">Music Explorer</a>
+      <a href="gigs.html">Gigs</a>
+      <a href="gallery.html">Gallery</a>
+    </nav>
+  </header>
+
+  <main class="container" id="music">
+    <h1>Music Explorer</h1>
+    <p class="muted">Client-side search powered by the iTunes Search API (no server storage).</p>
+
+    <form id="searchForm" class="search" role="search">
+      <label for="q">Search artist or track</label>
+      <input id="q" name="q" required placeholder="e.g., Kaytranada">
+      <button class="btn" type="submit">Search</button>
+      <span class="sr" id="srStatus" aria-live="polite"></span>
+    </form>
+
+    <ul id="results" class="results" aria-live="polite"></ul>
+
+    <section class="playerbar" aria-label="Preview player">
+      <button id="playPause" class="icon-btn" aria-label="Play/Pause">⏯</button>
+      <span id="nowPlaying">Nothing playing</span>
+      <progress id="progress" value="0" max="1"></progress>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>© 2025 SoundStage • <a class="link" href="https://validator.w3.org/nu/" target="_blank" rel="noopener">HTML Validator</a> • <a class="link" href="https://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener">CSS Validator</a></small>
+  </footer>
+</body>
+</html>
