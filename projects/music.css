@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
-
-/* Base layout */
+/* Base reset and typography */
 
 * {
   box-sizing: border-box;
@@ -13,9 +11,9 @@ body {
 }
 
 body {
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: #ececf0;
-  background-color: #050506; /* solid dark background */
+  background-color: #050506;
   line-height: 1.6;
   text-align: center;
 }
@@ -29,14 +27,11 @@ body {
 .visually-hidden,
 .sr {
   position: absolute;
-  clip: rect(1px, 1px, 1px, 1px);
+  left: -9999px;
+  top: 0;
   width: 1px;
   height: 1px;
   overflow: hidden;
-  white-space: nowrap;
-  border: 0;
-  padding: 0;
-  margin: -1px;
 }
 
 .muted {
@@ -57,7 +52,7 @@ body {
 .btn {
   display: inline-block;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: bold;
   color: #ffffff;
   background-color: #d61f2a;
   padding: 0.75rem 1.05rem;
@@ -106,8 +101,10 @@ body {
 /* Header / Nav */
 
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
   display: flex;
   align-items: center;
@@ -119,9 +116,7 @@ body {
 }
 
 .brand {
-  font-family: "Playfair Display", serif;
-  letter-spacing: 0.5px;
-  font-weight: 600;
+  font-weight: bold;
   color: #ececf0;
   text-decoration: none;
   padding: 0.3rem 0.55rem;
@@ -152,6 +147,12 @@ body {
   background-color: #2a1518;
 }
 
+/* Push main content below fixed header */
+
+main {
+  margin-top: 80px;
+}
+
 /* Footer */
 
 .site-footer {
@@ -172,10 +173,8 @@ body {
 }
 
 .hero-text h1 {
-  font-family: "Playfair Display", serif;
   margin: 0 0 0.25rem 0;
   font-size: 2.2rem;
-  letter-spacing: 0.3px;
 }
 
 .lead {
@@ -193,16 +192,13 @@ body {
   width: 100%;
   height: auto;
   border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
 }
 
 /* Section headings */
 
 section h2 {
-  font-family: "Playfair Display", serif;
   font-size: 1.8rem;
   margin: 0 0 0.6rem 0;
-  letter-spacing: 0.2px;
 }
 
 /* About split */
@@ -211,13 +207,12 @@ section h2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .split img {
   width: 100%;
   border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
 }
 
 /* Track cards */
@@ -236,7 +231,6 @@ section h2 {
   border-radius: 16px;
   background-color: #101014;
   border: 1px solid #1b1b20;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 
 .track-card img {
@@ -278,7 +272,6 @@ audio {
   border-radius: 16px;
   padding: 1.1rem;
   margin: 1rem 0;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 
 .gig-card h2 {
@@ -307,7 +300,6 @@ audio {
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid #1b1b20;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
   cursor: pointer;
 }
 
@@ -321,7 +313,6 @@ audio {
   border: 1px solid #1b1b20;
   border-radius: 12px;
   padding: 0.6rem 0.7rem;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 .search label {
@@ -373,12 +364,15 @@ audio {
 /* Player bar */
 
 .playerbar {
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 5;
   display: flex;
   gap: 0.65rem;
   align-items: center;
+  justify-content: center;
   background-color: #08080a;
   border-top: 1px solid #1b1b20;
   padding: 0.6rem 1rem;
@@ -387,7 +381,6 @@ audio {
 .playerbar progress {
   width: 220px;
   height: 10px;
-  border-radius: 999px;
 }
 
 /* Lightbox */
@@ -422,24 +415,6 @@ audio {
 #lightbox-caption {
   padding: 1rem 1rem 1.2rem;
   color: #a7a7b0;
-}
-
-/* Headings spacing */
-
-h1,
-h2,
-h3 {
-  /* no scroll-margin for validator simplicity */
-}
-
-/* Global focus ring baseline */
-
-a,
-button,
-input,
-textarea,
-select {
-  /* Keeping minimal transitions to avoid validator issues */
 }
 
 /* Responsive */
