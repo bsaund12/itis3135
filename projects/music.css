@@ -230,6 +230,7 @@ section h2 {
   border-radius: 16px;
   background-color: #101014;
   border: 1px solid #1b1b20;
+  margin-bottom: 1rem;
 }
 
 .track-card img {
@@ -299,6 +300,7 @@ audio {
   border-radius: 12px;
   border: 1px solid #1b1b20;
   cursor: pointer;
+  margin-bottom: 0.6rem;
 }
 
 /* Search + Results */
