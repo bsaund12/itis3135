@@ -65,6 +65,7 @@ a:visited { color: var(--link-visited); }
   margin: .5rem 0 1rem;
 }
 .profile img { display: block; width: 300px; height: auto; }
+.website-screenshot img{ max-width: 100%; height: auto; border: 1px solid #2a2f44; border-radius: 8px; }
 .profile figcaption {
   padding: .5rem .75rem;
   font-size: .95rem;
