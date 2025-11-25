@@ -1,18 +1,19 @@
 /*
-  File: scripts/main.js
+  File: scripts/music.js
   Author: B.J. Saunders
   Project: SoundStage Client Website
 
   Description:
-  Shared JavaScript for all pages in the SoundStage site.
+    Shared JavaScript for all pages in the SoundStage site.
 
-  Main features (3+ dynamic interactions):
-    1) Active navigation highlighting on every page.
-    2) Image lightbox widget for gallery thumbnails (Home + Gallery pages).
-    3) Music Explorer search + audio preview player using the iTunes Search API (Music page).
+    Dynamic features:
+      1) Active navigation highlighting on every page.
+      2) Image lightbox widget for gallery thumbnails (Home + Gallery pages).
+      3) Music Explorer search + audio preview player using the iTunes Search API (Music page).
 
-  This file keeps behavior (JS) separate from structure (HTML) and style (CSS).
+    Behavior (JS) is separated from structure (HTML) and style (CSS).
 */
+
 console.log("SoundStage JS loaded");
 
 "use strict";
@@ -153,9 +154,70 @@ document.addEventListener("DOMContentLoaded", () => {
         progressEl.value = 0;
       }
       if (playPauseBtn) {
-        // Use the general play/pause symbol from the design
+        // General play/pause symbol used in the UI
         playPauseBtn.textContent = "⏯";
       }
+    }
+
+    // --------------------------------------------------
+    // Define playPreview BEFORE we use it in the submit handler
+    // --------------------------------------------------
+    function playPreview(item) {
+      const url = item.previewUrl;
+
+      if (!url) {
+        updateNowPlaying("Preview not available for this track.");
+        return;
+      }
+
+      // If the same track is already playing, toggle pause
+      if (currentPreviewUrl === url && !audio.paused) {
+        audio.pause();
+        if (playPauseBtn) {
+          playPauseBtn.textContent = "▶";
+        }
+        return;
+      }
+
+      // New track selected: update source and play
+      currentPreviewUrl = url;
+      audio.src = url;
+
+      audio
+        .play()
+        .then(() => {
+          updateNowPlaying(`${item.trackName} — ${item.artistName}`);
+          if (playPauseBtn) {
+            playPauseBtn.textContent = "⏸";
+          }
+
+          // Clear any previous timer
+          if (progressTimer) {
+            clearInterval(progressTimer);
+          }
+
+          // Update the progress bar while audio is playing
+          progressTimer = setInterval(() => {
+            if (audio.duration && !isNaN(audio.duration)) {
+              if (progressEl) {
+                progressEl.value = audio.currentTime / audio.duration;
+              }
+            }
+
+            // When audio finishes, reset UI
+            if (audio.ended) {
+              if (progressTimer) {
+                clearInterval(progressTimer);
+              }
+              resetPlayerUI();
+              updateNowPlaying("Nothing playing");
+            }
+          }, 250);
+        })
+        .catch((err) => {
+          console.error(err);
+          setStatus("Unable to play preview.");
+        });
     }
 
     // --------------------------------------------------
@@ -249,67 +311,6 @@ document.addEventListener("DOMContentLoaded", () => {
         setStatus("Sorry, something went wrong. Please try again.");
       }
     });
-
-    // --------------------------------------------------
-    // Play a selected track preview in the sticky player
-    // --------------------------------------------------
-    function playPreview(item) {
-      const url = item.previewUrl;
-
-      if (!url) {
-        updateNowPlaying("Preview not available for this track.");
-        return;
-      }
-
-      // If the same track is already playing, toggle pause
-      if (currentPreviewUrl === url && !audio.paused) {
-        audio.pause();
-        if (playPauseBtn) {
-          playPauseBtn.textContent = "▶";
-        }
-        return;
-      }
-
-      // New track selected: update source and play
-      currentPreviewUrl = url;
-      audio.src = url;
-
-      audio
-        .play()
-        .then(() => {
-          updateNowPlaying(`${item.trackName} — ${item.artistName}`);
-          if (playPauseBtn) {
-            playPauseBtn.textContent = "⏸";
-          }
-
-          // Clear any previous timer
-          if (progressTimer) {
-            clearInterval(progressTimer);
-          }
-
-          // Update the progress bar while audio is playing
-          progressTimer = setInterval(() => {
-            if (audio.duration && !isNaN(audio.duration)) {
-              if (progressEl) {
-                progressEl.value = audio.currentTime / audio.duration;
-              }
-            }
-
-            // When audio finishes, reset UI
-            if (audio.ended) {
-              if (progressTimer) {
-                clearInterval(progressTimer);
-              }
-              resetPlayerUI();
-              updateNowPlaying("Nothing playing");
-            }
-          }, 250);
-        })
-        .catch((err) => {
-          console.error(err);
-          setStatus("Unable to play preview.");
-        });
-    }
 
     // --------------------------------------------------
     // Global play/pause button in the player bar
